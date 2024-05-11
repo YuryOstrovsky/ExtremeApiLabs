@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab XIQ-C Environment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <style>
+        pre {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            position: relative;
+        }
+	.copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #3f3f3f;
+            color: #ccc;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lab XIQ-C Environment</h1>
+    <p>For the LAB purposes we will be using follow XIQ-C and credentials:</p>
+    <ul>
+        <li>URL: <a href="https://xca.plm.extremewireless.ca:5825">https://xca.plm.extremewireless.ca:5825</a></li>
+        <li>User: readonly</li>
+        <li>Password: Extreme!</li>
+    </ul>
+
+    <h2>Importing modules</h2>
+    <p>At the very beginning of the script, you would need to import at least 2 modules: <code>requests</code> and <code>json</code>.</p>
+    <p><strong>Requests</strong> is a HTTP library written in PHP, for human beings. It is roughly based on the API from the excellent Requests Python library. Requests al
+lows you t
+o send HEAD, GET, POST, PUT, DELETE, and PATCH HTTP requests. You can add headers, form data, multipart files, and parameters with simple arrays, and access the response d
+ata in the
+ same way. JSON will let you turn JSON formatted strings to python dictionaries, and vice versa.</p>
+    <p>To import a module in python on a single line you write <code>import &lt;module_name&gt;</code>. For our purposes the first two lines of your script should look lik
+e this:</p
+>
+    <pre><code id="import-modules">import requests
+import json
+</code><button class="copy-btn" data-clipboard-target="#import-modules">Copy code</button></pre>
+
+    <h2>Authorization and first request</h2>
+    <p>Most API calls to the XIQ-C expect that you will pass a token in the header that signifies that you are who you say you are.</p>
+    <p>The API provides a way to get this token: you need to do a POST request to <code>/management/v1/oauth2/token</code> with your username and password.</p>
+    <p>Lets see in details how to build this request.</p>
+    <p>A POST (using requests module) will look similar to the following:</p>
+    <pre><code id="authorization-request">r = requests.post(&lt;url&gt;, json=&lt;request_body&gt;, headers=&lt;request_headers&gt;, verify=False)
+</code><button class="copy-btn" data-clipboard-target="#authorization-request">Copy code</button></pre>
+
+    <p><strong>Where:</strong></p>
+    <ul>
+        <li><code>&lt;url&gt;</code>: is the full URL of the API endpoint we want to talk to. It will be something like that: <code>https://xca.plm.extremewireless.ca:5825
+/managemen
+t/v1/oauth2/token</code></li>
+        <li><code>&lt;request_body&gt;</code>: the body of the HTTP request; in a case of obtaining a token, that is where we want to put our username and password. The HT
+TP request
+ itself will have this in JSON format, but here we can use a Python dictionary and <code>requests</code> module will transform it for us.</li>
+        <li><code>&lt;request_headers&gt;</code>: the headers of the HTTP request; if you are accessing some other API this is where you would put your access token, and t
+hings like
+ what format you expect the API to respond in, and what format you are sending it data in. For this request we need no headers, so all of <code>headers=&lt;request_headers
+&gt;</code
+>, can be omitted entirely.</li>
+        <li><code>verify=False</code>: since we are sending requests using HTTPS, <code>requests</code> module will expect the XIQ-C to have a certificate signed by one of
+ the root 
+CA (public or private). We did not bother installing any valid certificate to XIQ-C in our lab. To skip the certificate validation, we would need to set this option to Fal
+se.</li>
+    </ul>
+
+    <p>This method call will return an object representing the response we got from the API, so the <code>r =</code> at the beginning is to throw that into a variable so w
+e can actu
+ally do something with our token.</p>
+
+    <p>The request body for this request should look like this:</p>
+    <pre><code id="request-body">body = {"grantType": "password", "userId": "readonly", "password": "Extreme!", "scope":"myScope"}
+</code><button class="copy-btn" data-clipboard-target="#request-body">Copy code</button></pre>
+
+    <p><code>data</code> is the variable we will pass to <code>json</code> in our POST. This request requires no special headers, any standard ones will be automatically m
+ade for us
+.</p>
+
+    <p>Now you have all the bits and pieces, let’s make a POST (replace with your IP and credentials):</p>
+    <pre><code id="make-post-request">r = requests.post("https://xca.plm.extremewireless.ca:5825/management/v1/oauth2/token", json=body, verify=False)
+</code><button class="copy-btn" data-clipboard-target="#make-post-request">Copy code</button></pre>
+
+    <p><strong><code>'r'</code></strong> contains the response from the API; we can access few things for troubleshooting and debugging here:</p>
+
+    <p><strong><code>'r.headers'</code></strong> - a python dictionary with all the headers of the response, things like body data format, </p>
+	<p><strong><code>r.content'</code></strong> - the body of the response, if you send a GET this is probably what you were looking for.</p>
+
+
+    <p>Let’s grab the body of the response, and use json module to convert it into a python object:</p>
+
+    <pre><code id="parse-response">content = json.loads(r.content)
+</code><button class="copy-btn" data-clipboard-target="#parse-response">Copy code</button></pre>
+
+    <p>Get the <code>access_token</code> field from the object (“content”) you just made:</p>
+
+    <pre><code id="get-access-token">token = content["access_token"]
+</code><button class="copy-btn" data-clipboard-target="#get-access-token">Copy code</button></pre>
+
+    <p>Make sure the token is encoded the way we expect:</p>
+
+    <pre><code id="encode-token">auth_t = token.encode("ascii", "ignore")
+</code><button class="copy-btn" data-clipboard-target="#encode-token">Copy code</button></pre>
+
+    <p>Variable <code>auth_t</code> should now contain the token that will allow you to make authorized requests to all the other parts of the API, print it out with the f
+ollowing l
+ine to see what it looks like:</p>
+
+    <pre><code id="print-token">print(auth_t)
+</code><button class="copy-btn" data-clipboard-target="#print-token">Copy code</button></pre>
+
+    <p>Your final script to obtain the token should look like that:</p>
+
+    <pre><code id="final-script">import requests
+import json
+
+# Authorization and first request
+url = "https://xca.plm.extremewireless.ca:5825/management/v1/oauth2/token"
+body = {"grantType": "password", "userId": "readonly", "password": "Extreme!", "scope":"myScope"}
+r = requests.post(url, json=body, verify=False)
+
+# Parse response
+content = json.loads(r.content)
+token = content["access_token"]
+auth_t = token.encode("ascii", "ignore")
+
+# Print token
+print(auth_t)
+
+</code><button class="copy-btn" data-clipboard-target="#final-script">Copy code</button></pre>
+
+        <p>Continuation of the class will follow here:</p>
+
+	<pre><code id="some-test"> import blah-blah
+
+</code><button class="copy-btn" data-clipboard-target="#some-test">Copy code</button></pre>	
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var clipboard = new ClipboardJS('.copy-btn');
+
+            clipboard.on('success', function (e) {
+                e.clearSelection();
+                alert('Code copied to clipboard!');
+            });
+
+            clipboard.on('error', function (e) {
+                console.error('Copy failed:', e.action);
+            });
+        });
+    </script>
+</body>
+</html>
+
