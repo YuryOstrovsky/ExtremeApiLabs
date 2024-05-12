@@ -116,9 +116,7 @@ ade for us
     <pre><code id="encode-token">auth_t = token.encode("ascii", "ignore")
 </code><button class="copy-btn" data-clipboard-target="#encode-token">Copy code</button></pre>
 
-    <p>Variable <code>auth_t</code> should now contain the token that will allow you to make authorized requests to all the other parts of the API, print it out with the f
-ollowing l
-ine to see what it looks like:</p>
+    <p>Variable <code>auth_t</code> should now contain the token that will allow you to make authorized requests to all the other parts of the API, print it out with the following line to see what it looks like:</p>
 
     <pre><code id="print-token">print(auth_t)
 </code><button class="copy-btn" data-clipboard-target="#print-token">Copy code</button></pre>
@@ -143,11 +141,41 @@ print(auth_t)
 
 </code><button class="copy-btn" data-clipboard-target="#final-script">Copy code</button></pre>
 
-        <p>Continuation of the class will follow here:</p>
+        <p>Together with the token you probably see some ugly warning regarding the absense of certificate. If you don't want to see this warning, you can add this two lines in your code : </p>
 
-	<pre><code id="some-test"> import blah-blah
+	<pre><code id="remove-warning"> import urllib3
+ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-</code><button class="copy-btn" data-clipboard-target="#some-test">Copy code</button></pre>	
+
+</code><button class="copy-btn" data-clipboard-target="#remove-warning">Copy code</button></pre>	
+
+
+
+<p>So your final code to get Authorization token will be like that :  </p>
+
+        <pre><code id="auth-token"> import urllib3
+ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+ import requests
+ import json
+
+ # Authorization and first request
+ url = "https://xca.plm.extremewireless.ca:5825/management/v1/oauth2/token"
+ body = {"grantType": "password", "userId": "readonly", "password": "Extreme!", "scope":"myScope"}
+ r = requests.post(url, json=body, verify=False)
+
+ # Parse response
+ content = json.loads(r.content)
+ token = content["access_token"]
+ auth_t = token.encode("ascii", "ignore")
+
+ # Print token
+ print(auth_t)
+
+
+
+
+</code><button class="copy-btn" data-clipboard-target="#auth-token">Copy code</button></pre>
+
 
 
     <script>
