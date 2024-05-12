@@ -464,3 +464,122 @@ sudo systemctl stop lab.service
 sudo systemctl start lab.service
 timedatectl
 uptime
+sudo /etc/crontab
+sudo vi /etc/crontab
+sudo /etc/init.d/cron restart
+pwd
+more app.py
+git --version
+git config --global user.name "Yury Ostrovsky"
+git config --global user.email "yostrovs@extremenetworks.com"
+git config --list
+ls
+cp app.py app.py.orig 
+cp count_images.py count_images.py.orig
+cp start_container.py start_container.py.orig
+cp url_constract.py url_constract.py.orig 
+cd templates/
+ls
+cp index.html index.html.orig 
+rm index.html.nomoreavail 
+rm index.html.with.disclamer 
+ls
+cd ..
+ls
+cd static/
+ls
+cd ..
+git init
+git add .
+git commit -m "Initial Commit" -a
+git remote add origin ssh://git@github.com:YuryOstrovsky/ExtremeApiLabs.git
+git remote -v
+git push origin main
+git remote add origin https://github.com/YuryOstrovsky/ExtremeApiLabs.git
+git remote delete origin ssh://git@github.com:YuryOstrovsky/ExtremeApiLabs.git
+git remote remove origin ssh://git@github.com:YuryOstrovsky/ExtremeApiLabs.git
+git remote -v
+ssh-keygen -t rsa -b 4096 -C "yostrovs@extremenetworks.com"
+cd /home/jupyter/.ssh/
+ls
+ls -ltr
+more git_rsa.pub 
+cd ..
+pwd
+cd ~
+git push origin main
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/git_rsa
+git push origin main
+git commit -m "initial commit"
+git push origin main
+exit
+git push origin main
+git branch
+pwd
+git checkout -b main
+git push -u origin main
+git remote -v
+git remote set-url origin git@github.com:YuryOstrovsky/ExtremeApiLabs.git
+git push -u origin main
+cd .ssh
+ls
+ls -al
+more id_rsa.pub 
+cd ..
+ls
+pwd
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git push -u origin main
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git pull -u origin main
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git pull  origin main
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git config pull.rebase false  origin main
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git config pull.rebase false  
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git pull  origin main
+ls
+ls /home
+sudo mkdir /user01/backup
+sudo mkdir /home/user01/backup
+ls
+sudo cp app.py /home/user01/backup/
+sudo ls /home/user01/backup
+sudo cp count_images.py /home/user01/backup/
+sudo cp start_container.py /home/user01/backup/
+sudo cp url_constract.py /home/user01/backup/
+sudo mkdir /home/user01/backup/templates
+cd templates/
+cp index.html /home/user01/backup/templates/
+sudo cp index.html /home/user01/backup/templates/
+cd ..
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git pull  origin main --allow-unrelated-histories
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git commit -m "Merge remote-tracking branch 'origin/main'"
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git push origin main
+ls
+cd static/
+ls
+cd ..
+ls
+more README.md 
+GIT_SSH_COMMAND="ssh -i ~/.ssh/git_rsa" git pull origin main
+more README.md 
+ls ./ssh
+pwd
+ls .ssh/
+git config --global core.sshCommand "ssh -i ~/.ssh/git_rsa"
+git pull origin main
+pwd
+ls -al
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/git_rsa
+vi .bashrc 
+exit
+ssh-agent
+ssh-add -l
+ls -al .ssh
+chmod 600 ./ssh/git_rsa
+chmod 600 .ssh/git_rsa
+ls -al
+ls -al .ssh/
+ls -al
+chmod 700 .ssh
+ls -al
+exit

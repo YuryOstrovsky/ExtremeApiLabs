@@ -115,3 +115,8 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# Start SSH agent
+eval "$(ssh-agent -s)"
+# Add SSH key
+ssh-add ~/.ssh/git_rsa
