@@ -1,5 +1,0 @@
-[user]
-	name = Yury Ostrovsky
-	email = yostrovs@extremenetworks.com
-[core]
-	sshCommand = ssh -i ~/.ssh/git_rsa
