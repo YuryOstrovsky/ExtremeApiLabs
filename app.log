@@ -4093,3 +4093,23 @@ NameError: name 'redirect' is not defined
 2024-05-12 00:49:00,541 - werkzeug - INFO - 43.158.215.27 - - [12/May/2024 00:49:00] "[35m[1m\x16\x03\x01\x01§\x01\x00\x01£\x03\x03øví\x90¨Rò\x1b=^sú\x96\x91Æ\x84D8 ÐpøÅÜSVÊi\x93\x84¶$ M\x86¹\x8eZô·X\x83çYc4\x0f;DÄ\x84\x93±&:ÿF{´ßðÛ1og\x00\x8a\x00\x05\x00\x04\x00\x07\x00À\x00\x84\x00º\x00A\x00\x9dÀ¡À\x9d\x00=\x005\x00\x9cÀ À\x9c\x00<\x00/\x00[0m" HTTPStatus.BAD_REQUEST -
 2024-05-12 00:49:03,058 - werkzeug - ERROR - 43.158.215.27 - - [12/May/2024 00:49:03] code 400, message Bad request version ('À#À¬À®À+À')
 2024-05-12 00:49:03,058 - werkzeug - INFO - 43.158.215.27 - - [12/May/2024 00:49:03] "[35m[1m\x16\x03\x01\x01\x9d\x01\x00\x01\x99\x03\x03Ã\x0dî\x89\x15àk\x9c\x91éz.5\x05+%\x16Ê|¼_ës\x9f\x9cÛQJ;#\x81\x9c "!>\\\x04Ø\x99\x93\x10½òþMµù»ðsY/2Þz4\x0d\x9e\x8a@~6Öa\x00\x80\x00\x16\x003\x00gÀ\x9eÀ¢\x00\x9e\x009\x00kÀ\x9fÀ£\x00\x9f\x00E\x00¾\x00\x88\x00Ä\x00\x9aÀ\x08À\x09À#À¬À®À+À[0m" HTTPStatus.BAD_REQUEST -
+2024-05-12 00:49:05,418 - werkzeug - ERROR - 43.158.215.27 - - [12/May/2024 00:49:05] code 400, message Bad request version ("\x93*\x13&Ô\x84Ýe\x7f\x00\x8c::À\x12À\x13À\x07À'Ì\x14À/\x13\x01À\x14\x13\x02À(Ì©À0ÀsÀ`ÀrÀaÀ,ÀvÀ¯ÀwÀ\xadÌ¨À$\x13\x05À")
+2024-05-12 00:49:05,418 - werkzeug - INFO - 43.158.215.27 - - [12/May/2024 00:49:05] "[35m[1m\x16\x03\x01\x01´\x01\x00\x01°\x03\x03ªàÿ\x16¤\x1c¶\x18hür%I\x0eZt[P²\x0fû«/Á\x90-\x91 4¨Ø\x10 @U!Õu\x8f»QDª1\x990\x12?5/e8|^Ø\x1f\x93*\x13&Ô\x84Ýe\x7f\x00\x8c::À\x12À\x13À\x07À'Ì\x14À/\x13\x01À\x14\x13\x02À(Ì©À0ÀsÀ`ÀrÀaÀ,ÀvÀ¯ÀwÀ­Ì¨À$\x13\x05À[0m" HTTPStatus.BAD_REQUEST -
+2024-05-12 00:49:08,217 - werkzeug - ERROR - 43.158.215.27 - - [12/May/2024 00:49:08] code 400, message Bad request version ('À\x14À')
+2024-05-12 00:49:08,217 - werkzeug - INFO - 43.158.215.27 - - [12/May/2024 00:49:08] "[35m[1m\x16\x03\x01\x00{\x01\x00\x00w\x03\x03çµé\x92ë\x0c\x8cW\x95jú\x96\x82°9\x83­Ú4­\x97\x7f^\x91ìm\x06¼\x8d&\x80\x8f\x00\x00\x1aÀ/À+À\x11À\x07À\x13À\x09À\x14À[0m" HTTPStatus.BAD_REQUEST -
+2024-05-12 00:49:10,648 - werkzeug - ERROR - 43.158.215.27 - - [12/May/2024 00:49:10] code 400, message Bad request syntax ('\x16\x03\x01\x00ò\x01\x00\x00î\x03\x03ÇÊÓ¹ÕE÷*f\x84\x98½ÐÇ*xL¡\x93=ÞP\x82\x17\x0fúsX')
+2024-05-12 00:49:10,648 - werkzeug - INFO - 43.158.215.27 - - [12/May/2024 00:49:10] "[35m[1m\x16\x03\x01\x00ò\x01\x00\x00î\x03\x03ÇÊÓ¹ÕE÷*f\x84\x98½ÐÇ*xL¡\x93=ÞP\x82\x17\x0fúsX[0m" HTTPStatus.BAD_REQUEST -
+2024-05-12 00:51:56,882 - root - DEBUG - Rendering home page
+2024-05-12 00:51:56,882 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2024-05-12 00:51:56,882 - docker.utils.config - DEBUG - No config file found
+2024-05-12 00:51:56,882 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2024-05-12 00:51:56,882 - docker.utils.config - DEBUG - No config file found
+2024-05-12 00:51:56,891 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 820
+2024-05-12 00:51:56,895 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.45/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 None
+2024-05-12 00:51:56,897 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.45/containers/c7109d7609dff5965852ed2df11be27703b92fcab5b8791c190c54a4e80571f3/json HTTP/1.1" 200 None
+2024-05-12 00:51:56,899 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.45/containers/12bf13239b7945bd4ffebd27350ac821f0fabb529866bb561342f456ed510e10/json HTTP/1.1" 200 None
+2024-05-12 00:51:56,901 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.45/containers/ca4e15d16bc098672d152684a882b432f16e83c05163106cf8a94a10dc9e873b/json HTTP/1.1" 200 None
+2024-05-12 00:51:56,903 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.45/images/79721f204d0030b0de1d7a16eaeb2c498709ae9841ec9c0f8bea6903918e1c5d/json HTTP/1.1" 200 None
+2024-05-12 00:51:56,904 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.45/images/79721f204d0030b0de1d7a16eaeb2c498709ae9841ec9c0f8bea6903918e1c5d/json HTTP/1.1" 200 None
+2024-05-12 00:51:56,906 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.45/images/79721f204d0030b0de1d7a16eaeb2c498709ae9841ec9c0f8bea6903918e1c5d/json HTTP/1.1" 200 None
+2024-05-12 00:51:56,907 - werkzeug - INFO - 185.191.126.213 - - [12/May/2024 00:51:56] "GET / HTTP/1.1" 200 -
