@@ -1,5 +1,5 @@
 # ExtremeApiLabs
-Online classes for API teaching different Extreme Networks APIs
+Online classes for API teaching different Extreme Networks APIs http://apilabs.extremewireless.ca
 
 Files in the project : 
 
