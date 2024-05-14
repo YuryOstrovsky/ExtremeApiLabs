@@ -3,26 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorial</title>
+    <title>Lab XIQ Environment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <style>
+        pre {
+            background-color: #000;
+            color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            position: relative;
+        }
+	.copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #3f3f3f;
+            color: #ccc;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Tutorial!</h1>
-    <p>This is a sample tutorial page. You can replace this content with your own tutorial instructions.</p>
-    <h2>Getting Started</h2>
-    <p>To get started with the tutorial, follow these steps:</p>
-    <ol>
-        <li>Step 1: Lorem ipsum dolor sit amet.</li>
-        <li>Step 2: Consectetur adipiscing elit.</li>
-        <li>Step 3: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
-    </ol>
-    <h2>Advanced Topics</h2>
-    <p>Once you've completed the basics, you can explore these advanced topics:</p>
-    <ul>
-        <li>Topic 1: Ut enim ad minim veniam.</li>
-        <li>Topic 2: Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-        <li>Topic 3: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</li>
-    </ul>
-    <p>Feel free to edit this tutorial page to add your own content!</p>
+	<h1> Lab XIQ Environment</h1>
+
+	<p> We can use Extreme Remote Demo lab with read-only access to complete this labs. You can use your own ExtremeCloud IQ credentials to work with your own cloud accountfrom the same Jupyter Notebook environment.</p>
+
+	<ul>
+		<li> Username: extremeapilabs@gmail.com </li>
+		<li> Password: Read0nly </li>
+
+	</ul>
+
+	<h1> Lab 1. API Token </h1>
+
+	<p>At the end of this lab, you will put together a simple Python script to perform an API call against XIQ. You will use an API call to authorize your request and generate an API access token.
+
+We will use Python 3.
+	</p>
+ <h2>Importing modules</h2>
+
+ <p>
+ Python allows you to import functions and variables from modules. This lab will use the requests, json, and pprint modules.</p>
+ <p>
+ The <strong>requests</strong> module allows you to send HTTP requests using Python. You can send <strong>GET, POST, PUT, PATCH,</strong> and <strong>DELETE</strong> HTTP requests. You can add headers, parameters, and the request body when sending the request. You can also access the data from the response.</p>
+ <p>
+ The <strong>JSON</strong> module allows you to easily convert back and forth between JSON formatted strings to Python dictionaries.
+
+To import the modules in Python, write ‘import <module_name>’. These 2 modules should be added at the top of your script for this lab.
+
+The <strong>pprint</strong> module provides a method to “pretty-print” Python data structures in a formatted way making the outputs more user friendly to read.
+
+We will start with requests and json and then add pprint later on.
+ </p>
+   
+   
+<pre><code id="import">import requests
+import json
+
+</code><button class="copy-btn" data-clipboard-target="#import">Copy code</button></pre>
+
+<h2>ExtremeCloudIQ API endpoint</h2>
+<p>
+With ExtremeCloudIQ(XIQ), each API call will be made to the same URL no matter which RDC (Regional Data Center) your VIQ(virtual instance of XIQ) is in. To perform API calls, you will need to get a <strong>JWT token</strong>. In addition to providing authorization, this token provides information about which RDC, which VIQ, who generated the token, when it was generated, and when it expires. So, the information in the token will tell the API gateway to which RDC and VIQ will forward the request.
+</p>
+<p>All API access is over HTTPS. So, all API calls will start with </p>
+
+<a href="https://api.extremecloudiq.com" target="_blank">https://api.extremecloudiq.com</a>
+
+<p>Create a string variable called <strong>baseurl</strong> in your script and set it to equal this URL:</p>
+<p><i>baseurl = "https://api.extremecloudiq.com"</i><p>
+
+<h2>Headers</h2>
+
+<p>
+In this lab, we will use the HTTP headers to specify the format you expect the API to respond using and the format in which the data is sent.
+
+We will create a new dictionary variable called <strong>headers</strong>. For now, we will add a key called <strong>‘Accept’</strong>, set the value to <strong>‘application/json’</strong> and create a key called <strong>‘Content-Type’</strong> and set the value to <strong>‘application/json’</strong>.
+</p>
+
+<p><i>headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}</i></p>
+
+<pre><code id="headers">import requests
+import json
+
+baseurl = "https://api.extremecloudiq.com"
+
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+</code><button class="copy-btn" data-clipboard-target="#headers">Copy code</button></pre>
+
+
+<h2>Request Body</h2>
+
+<p>When performing POST, PUT, and PATCH HTTP requests, a request body with the information to add or update the endpoint object is typically needed.
+</p>
+<p>For the /login endpoint, the request body must contain the username and password to generate an API token. The HTTP request will need this in JSON format; we will create this as a Python dictionary, and the requests module will convert it to JSON format.
+</p>
+<p>Create a dictionary variable called <strong>body</strong>. Add a key called <strong>‘username’</strong> and set it to your XIQ username. Then, add a key called <strong>‘password’</strong> and set it to your XIQ password.
+</p>
+<p><i>body = {"username": "extremeapilabs@gmail.com", "password": "Read0nly"}</i><p>
+
+<h2>Generating an API token</h2>
+
+<p>A POST API call is used to generate the API token. The endpoint used for this is <strong>/login</strong>. </p>
+
+<p>Please create a new variable called <strong>url</strong> and concatenate our baseurl with <strong>/login</strong>. </p>
+
+<p><i>url = baseurl + '/login'</i></p>
+
+<p>Information can be found for this endpoint on the swagger page. </p>
+
+<a href="https://api.extremecloudiq.com/swagger-ui/index.html#/Authentication/login" target="_blank">https://api.extremecloudiq.com/swagger-ui/index.html#/Authentication/login</a>
+
+<p>Let’s look at how to build this request. </p>
+
+<p>A POST (using requests module) will look similar to the following :</p>
+<p><i>response = requests.post(&lt;url&gt;, headers=&lt;request_headers&gt;, json=&lt;request_body&gt;) </i></p>
+
+<p>&lt;url&gt; is the API endpoint we want to use – we defined this a <strong>url</strong><p>
+
+<p>&lt;request_body&gt; is defined in our script as <strong>body</strong>. 
+
+<div style="border: 2px solid #000; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
+	<p style="font-weight: bold; color: #000;">NOTE: The requests module can use json= to convert the Python dictionary to JSON format. If the variable is already in JSON format, you can use data= </p>
+</div>
+
+<p>&lt;request_headers&gt; is defined in our script as <strong>headers</strong></p>.
+
+<p>Put this all together and add it to your script.</p>
+
+<p><i>response = requests.post(url,headers=headers,json=body)</i></p>
+
+
+<pre><code id="response">import requests
+import json
+
+baseurl = "https://api.extremecloudiq.com"
+
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+body = {
+	"username": "extremeapilabs@gmail.com",
+	"password": "Read0nly"
+	}
+url = baseurl + '/login'
+
+response = requests.post(url,headers=headers,json=body)
+
+</code><button class="copy-btn" data-clipboard-target="#response">Copy code</button></pre>
+
+<p>The <strong>response</strong> variable will contain the response object from the HTTP request. This includes the content, encoding, status, etc.</p>
+
+
+<h2>Status Code</h2>
+
+<p>The first thing we will want to do is check the response's status code. A successful response will have a status code of 2xx. A response that failed due to a client error will have a status code of 4xx. A response with a server-side error will have a status code of 5xx. Here is a table of status codes that can be seen with XIQ.
+</p>
+
+<h2> HTTP Status Codes</h2>
+
+<p> The HTTP Status Codes are used to indicate the status of the executed operations.</p>
+
+<h2> Success </h2>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<table>
+    <thead>
+        <tr>
+            <th>HTTP Status Code</th>
+            <th>Description</th>
+            <th>Use Cases</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>200</td>
+            <td>OK</td>
+            <td>Standard response for successful HTTP requests.</td>
+        </tr>
+        <tr>
+            <td>201</td>
+            <td>Created</td>
+            <td>The request has been fulfilled, resulting in the creation of a new resource.</td>
+        </tr>
+        <tr>
+            <td>202</td>
+            <td>Accepted</td>
+            <td>The request is queued for background processing (async tasks or long-running operations).</td>
+        </tr>
+        <tr>
+            <td>204</td>
+            <td>No Content</td>
+            <td>The server successfully processed the request and is not returning any content.</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h2>Client Error</h2>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Error</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>HTTP Status</th>
+            <th>Description</th>
+            <th>Use Cases</th>
+            <th>Client Recovery Policy</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>400</td>
+            <td>Bad Request</td>
+            <td>The API endpoint exists, but the HTTP request syntax or payload is incorrect, detail will be given in response.</td>
+            <td>Do not retry. Fix the request.</td>
+        </tr>
+        <tr>
+            <td>401</td>
+            <td>Unauthorized</td>
+            <td>The server can be reached and understood the request, but refuses to take any further action, because the client must provide authorization.</td>
+            <td>If the client has provided authorization, the server is indicating the provided authorization is unsuitable or invalid. If the user has not supplied authorization information, prompt them for the appropriate credentials. If the user has supplied authorization information, inform them their credentials were rejected and optionally prompt them again.</td>
+        </tr>
+        <tr>
+            <td>403</td>
+            <td>Forbidden</td>
+            <td>The server can be reached and understood the request, but refuses to take any further action, because it is configured to deny access for some reason to the requested resource by the client.</td>
+            <td>Do not retry. Fix the request.</td>
+        </tr>
+        <tr>
+            <td>404</td>
+            <td>Not Found</td>
+            <td>The API endpoint doesn't exist or resource doesn't exist.</td>
+            <td>Do not retry. Fix the request.</td>
+        </tr>
+        <tr>
+            <td>415</td>
+            <td>Unsupported Media Type</td>
+            <td>The request entity has a media type which the server or resource does not support.</td>
+            <td>Do not retry. Fix the request.</td>
+        </tr>
+        <tr>
+            <td>429</td>
+            <td>Too Many Requests</td>
+            <td>The request entity has a media type which the server or resource does not support.</td>
+            <td>Retry after a while.</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+
+<h2> Server Error </h2>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server error</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>HTTP Status</th>
+            <th>Description</th>
+            <th>Use Cases</th>
+            <th>Client Recovery Policy</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>500</td>
+            <td>Internal Server Error</td>
+            <td>Server side Exception caught, detail will be given in response.</td>
+            <td>Ask user to retry later or the client automatically calls retry request.</td>
+        </tr>
+        <tr>
+            <td>503</td>
+            <td>Service Unavailable</td>
+            <td>The server is temporary unavailable.</td>
+            <td>Ask user to retry later or the client automatically calls retry request.</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+
+
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var clipboard = new ClipboardJS('.copy-btn');
+
+            clipboard.on('success', function (e) {
+                e.clearSelection();
+                alert('Code copied to clipboard!');
+            });
+
+            clipboard.on('error', function (e) {
+                console.error('Copy failed:', e.action);
+            });
+        });
+    </script>
 </body>
 </html>
 
