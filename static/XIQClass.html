@@ -141,21 +141,32 @@ headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
 <p><i>response = requests.post(url,headers=headers,json=body)</i></p>
 
 
-<pre><code id="response">import requests
+<pre><code id="response"># Import the requests library for making HTTP requests
+import requests
+
+# Import the json library for working with JSON data
 import json
 
+# Base URL of the ExtremeCloud IQ API
 baseurl = "https://api.extremecloudiq.com"
 
+# Headers to be sent with the HTTP request, specifying that we expect and are sending JSON data
 headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
 
+# Body of the POST request containing the login credentials
 body = {
-	"username": "extremeapilabs@gmail.com",
-	"password": "Read0nly"
-	}
+    "username": "extremeapilabs@gmail.com",
+    "password": "Read0nly"
+}
+
+# Full URL for the login endpoint
 url = baseurl + '/login'
 
-response = requests.post(url,headers=headers,json=body)
+# Send a POST request to the login endpoint with the specified headers and body
+response = requests.post(url, headers=headers, json=body)
 
+# Print the response from the server (for debugging purposes)
+print(response.text)
 </code><button class="copy-btn" data-clipboard-target="#response">Copy code</button></pre>
 
 <p>The <strong>response</strong> variable will contain the response object from the HTTP request. This includes the content, encoding, status, etc.</p>
@@ -358,8 +369,589 @@ response = requests.post(url,headers=headers,json=body)
 
 </body>
 
+<p>As noted on the swagger page, a successful request for the <strong>/login</strong> endpoint will be given a status code 200. 
+
+With Python, we can check this with an if statement and display a message if the status code is incorrect.
+</p>
+
+<p><i>if response.status_code != 200:</i></p>
+
+<p>
+Print a statement stating the status code is wrong. You can use the returned status code in the message with str(<i>response.status_code</i>)
+
+You can also get the response content in Unicode with <i>response.text</i>. It can sometimes be useful to see any error messages if the status code is not 200.
+</p>
+
+<h2>Response Body</h2>
+
+<p>The requests module includes a function to load the JSON data in the response into a Python object.</p>
+<p><i>data = response.json()</i></p>
+
+<p>The response for the <strong>/login</strong> endpoint will be converted into a dictionary object containing 3 keys:<i> access_token, token_type</i>, and <i>expires_in</i>.</p>
+
+<p>The <i>access_token</i> key contains the token that will be used to authenticate API requests. 
+The <i>token_type</i> will always be ‘Bearer,’ as XIQ uses only Bearer tokens for authentication. 
+The <i>expires_in</i> is the number of seconds the token is valid for. The access token is valid for one day (86400 seconds). 
+</p>
 
 
+<p>For this lab, we are only concerned with the <i>access_token</i>, but note that once the expiration time is up, the token will no longer be valid.</p>
+
+<p><i>token = data['access_token']</i><p>
+
+<p>the variable <i>token</i> should now contain the access token returned from the API call. Print out the token with the following line to see what the token looks like.</p>
+
+<p><i>print(token)</i></p>
+
+<p>The final script should look like this:<p>
+
+
+<pre><code id="print-token"># Import the requests library for making HTTP requests
+import requests
+
+# Import the json library for working with JSON data
+import json
+
+# Base URL of the ExtremeCloud IQ API
+baseurl = "https://api.extremecloudiq.com"
+
+# Headers to be sent with the HTTP request, specifying that we expect and are sending JSON data
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+# Body of the POST request containing the login credentials
+body = {
+    "username": "extremeapilabs@gmail.com",
+    "password": "Read0nly"
+}
+
+# Full URL for the login endpoint
+url = baseurl + '/login'
+
+# Send a POST request to the login endpoint with the specified headers and body
+response = requests.post(url, headers=headers, json=body)
+
+# Check if the request was not successful (status code other than 200)
+if response.status_code != 200:
+    # Print an error message with the HTTP status code if the request failed
+    print(f"Error getting access token - HTTP Status Code: {str(response.status_code)}")
+
+# Parse the response JSON data
+data = response.json()
+
+# Extract the access token from the response data
+token = data['access_token']
+
+# Print the access token (for debugging purposes or further use)
+print(token)
+
+
+</code><button class="copy-btn" data-clipboard-target="#print-token">Copy code</button></pre>
+
+<p> Copy the code and place it into Jupyter Notebook on the left : you should see the token is collected and printed on the screen.</p>
+
+<h1>Lab 2. Collect Device info from XIQ</h1>
+
+<p>
+The script can now collect a Bearer token, which can be used to authenticate the other XIQ API endpoints. We can now build some API calls.
+
+We must add the Bearer token to the headers to authenticate our requests. We already have a header dictionary in our scripts. So, let's add a new key, <strong>‘Authorization,’</strong> and assign the type and token to it. We can concatenate those together in a string.
+
+Open your script, and instead of printing the token, add this line.
+</p>
+
+<p><i>headers['Authorization'] = "Bearer " + token</i><p>
+
+<div style="border: 2px solid #000; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
+	<p style="font-weight: bold; color: #000;">NOTE: You could use the ‘token_type’ in the response, but you would need to add a space between that and the token.</p>
+	<p><i>headers['Authorization'] = data['token_type'] + " " + token</i><p>
+</div>
+
+<p>To get a list of devices, use the endpoint <strong>/devices</strong></p>
+<a href="https://api.extremecloudiq.com/swagger-ui/index.html#/Device/listDevices" target="_blank">https://api.extremecloudiq.com/swagger-ui/index.html#/Device/listDevices</a>
+
+
+<p>
+This endpoint has many parameters that can be used. We will examine a few of them and give examples of their use.
+Some parameters will have a default value. We will start with the defaults.
+</p>
+
+<p>Create a new <strong>url</strong> variable and concatenate the <strong>baseurl</strong> with <strong>/devices</strong></p>
+
+<p><i>url = baseurl + '/devices'</i></p>
+<p>
+This will override the <strong>url</strong> variable with the new URL. This is fine for our purpose.
+Next, we will build a new GET request and assign the response object to the response variable. This also overrides the response variable.</p>
+
+<p><i>response = requests.get(url,headers=headers)</i></p>
+
+<p>Next, print the JSON data from the response. Save and run your script.</p>
+
+<p><i>print(response.json())</i></p>
+
+
+<pre><code id="print-response">import requests
+import json
+
+baseurl = "https://api.extremecloudiq.com"
+
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+body = {
+        "username": "extremeapilabs@gmail.com",
+        "password": "Read0nly"
+        }
+url = baseurl + '/login'
+
+response = requests.post(url,headers=headers,json=body)
+
+if response.status_code != 200:
+        print(f"Error getting access token - HTTP Status Code: {str(response.status_code)}")
+
+
+data = response.json()
+token = data['access_token']
+
+headers['Authorization'] = "Bearer " + token
+
+url = baseurl + '/devices'
+response = requests.get(url,headers=headers)
+
+print(response.json())
+
+
+
+</code><button class="copy-btn" data-clipboard-target="#print-response">Copy code</button></pre>
+
+
+<p> 
+What do you think? It’s not very readable. Like a JSON string, printing a Python dictionary displays the entire dictionary as a string.
+
+We can make this more user-readable with the <strong>pprint</strong> (Pretty Print) module. We only need a <strong>pprint</strong> function of that module and we will create an alias for our script.
+
+If we just imported the pprint module, every time we wanted to use the pprint function, we would have to type <strong>pprint.pprint</strong>(string)
+
+So, to import just the function, we can add <strong>‘from pprint import pprint’</strong>. Then, to create an alias or rename the module for our script we can add as<strong>’pp’</strong>. This would allow us to enter <strong>pp</strong>(string) in our script to leverage the pretty print function.
+
+At the top of your script, below the import json line, enter this:
+</p>
+<p><i>from pprint import pprint as pp</i></p>
+
+<p>Then change the print(response.json()) line to pp(response.json()), then save and run the script.</p>
+
+<pre><code id="pp">import requests
+import json
+from pprint import pprint as pp
+
+baseurl = "https://api.extremecloudiq.com"
+
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+body = {
+        "username": "extremeapilabs@gmail.com",
+        "password": "Read0nly"
+        }
+url = baseurl + '/login'
+
+response = requests.post(url,headers=headers,json=body)
+
+if response.status_code != 200:
+        print(f"Error getting access token - HTTP Status Code: {str(response.status_code)}")
+
+
+data = response.json()
+token = data['access_token']
+
+headers['Authorization'] = "Bearer " + token
+
+url = baseurl + '/devices'
+response = requests.get(url,headers=headers)
+
+pp(response.json())
+</code><button class="copy-btn" data-clipboard-target="#pp">Copy code</button></pre>
+
+
+<p> 
+Now, look at the printed response. The dictionary has five keys: page, count, total_pages, total_count, and data.
+Most XIQ API calls that list things (devices, clients, users, network policies, etc.) will use pagination. These calls would all include the same 5 keys.
+</p>
+
+<p>
+<strong>data</strong> – This would be a list of data returned for the elements included on the page
+
+Pagination info:
+
+<strong>page</strong> – The current page number
+<strong>count</strong> - The element count of the current page
+<strong>total_pages</strong> – The total pages based on the request page size
+<strong>total_count</strong> – The total element count
+</p>
+
+<h2>Parameters</h2>
+
+<h3>Page size</h3>
+
+<p> 
+For XIQ API calls that use pagination, XIQ defaults the page size to 10 elements. By adding a parameter to the request, we can adjust it up to 100. 
+
+Add space before the line with the request to get devices but after the <strong>url</strong> line. In this space, add a new dictionary called <strong>params</strong>. Add a <strong>page</strong> key and set it to <strong>1</strong>, and a <strong>limit</strong> key and set it to <strong>100</strong>. 
+</p>
+
+<p><i>params = {"page":1,"limit":100}</i></p>
+
+<p>
+You will also need to add the params dictionary to the <strong>request.get</strong> function arguments.
+</p>
+
+<p><i>response = requests.get(url,headers=headers,params=params) </i></p>
+
+<p>Now, when you run the script, you should see that ‘count’ is set to 100.</p>
+
+<pre><code id="params">import requests
+import json
+from pprint import pprint as pp
+
+baseurl = "https://api.extremecloudiq.com"
+
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+body = {
+        "username": "extremeapilabs@gmail.com",
+        "password": "Read0nly"
+        }
+url = baseurl + '/login'
+
+response = requests.post(url,headers=headers,json=body)
+
+if response.status_code != 200:
+        print(f"Error getting access token - HTTP Status Code: {str(response.status_code)}")
+
+
+data = response.json()
+token = data['access_token']
+
+headers['Authorization'] = "Bearer " + token
+
+url = baseurl + '/devices'
+
+params = {
+	  "page": 1,
+	  "limit": 100
+	 }
+
+response = requests.get(url,headers=headers,params=params)
+
+pp(response.json())
+
+</code><button class="copy-btn" data-clipboard-target="#params">Copy code</button></pre>
+
+<h3>Views</h3>
+<p>
+The /devices endpoint has a parameter named <strong>views</strong>, which changes which fields will be returned for each device. By default, this is set to basic. You can see which fields are included in each view by looking at the view’s parameter in the documentation.
+</p>
+
+<a href="https://extremecloudiq.com/api-docs/api-reference.html#_list_devices" target="_blank">https://extremecloudiq.com/api-docs/api-reference.html#_list_devices</a>
+
+<p>
+The full view contains information like the network policy name, network policy ID, and lldp_cdp_info that aren’t included in other views.
+
+Add a key to the <strong>params</strong> dictionary called <strong>views</strong> and set it to <strong>“Full”</strong>.
+
+</p>
+
+<p><i>params = {“page”:1,”limit”:100,”views”:”Full”}</i></p>
+
+
+<pre><code id="views">import requests
+import json
+from pprint import pprint as pp
+
+baseurl = "https://api.extremecloudiq.com"
+
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+body = {
+        "username": "extremeapilabs@gmail.com",
+        "password": "Read0nly"
+        }
+url = baseurl + '/login'
+
+response = requests.post(url,headers=headers,json=body)
+
+if response.status_code != 200:
+        print(f"Error getting access token - HTTP Status Code: {str(response.status_code)}")
+
+
+data = response.json()
+token = data['access_token']
+
+headers['Authorization'] = "Bearer " + token
+
+url = baseurl + '/devices'
+
+params = {
+          "page": 1,
+          "limit": 100,
+	  "views": "Full"
+         }
+response = requests.get(url,headers=headers,params=params)
+
+pp(response.json())
+
+</code><button class="copy-btn" data-clipboard-target="#views">Copy code</button></pre>
+
+
+<h1>Lab 3. Collecting all pages of devices</h1>
+
+<p>
+So, we have set the limit to 100 devices, but what if there are more? Or what if you are collecting a different element with more than 1 page?
+
+This is where we can use the pagination information within a Python loop.
+
+In your script, delete the params variable, the line with the request.get, and the pp lines.
+Before we create the loop, let's create 2 variables. Below the <strong>url</strong> = baseurl + “/devices” line, create a variable <strong>page</strong>, set it to <strong>1</strong>, and create <strong>pageCount</strong> and set it to <strong>1</strong>.
+
+Also, add an empty list named <strong>devices</strong>. Here, we will store the data portion of the requests as we go through each page.
+</p>
+
+<p><i>page=1</i></p>
+<p><i>pageCount = 1</i></p>
+<p><i>devices=[]</i></p>
+
+<p>
+We will create a while loop to loop through the API call <strong>while page &lt= pageCount</strong>. We will use the pagination info to update their variables or we will be stuck in an infinite loop!
+
+Add back the params dictionary inside the "while loop", but have the <strong>page</strong> key set to <strong>page</strong> variable.
+</p>
+
+<p><i>params = {"page":page,"limit":100,"views":"Full"} </i></p>
+
+<p>Add back the request returning the response object</p>
+
+<p><i>response = requests.get(url,headers=headers,params=params) </i></p>
+
+<p>use the json() function to convert the response.</p>
+<p><i>data = response.json()</i></p>
+
+<p>We will add the response data to the device list. We want to ensure we keep any data already in the devices list and add the raw data to it.</p>
+<p><i>devices = devices + data['data']</i></p>
+
+<p>Once we have collected the data for this loop instance, we need to update the <strong>page</strong> and <strong>pageCount</strong> variables. Set the page to <strong>response[‘page’] + 1</strong> (to collect the next page). Then set <strong>pageCount</strong> to <strong>response[‘total_pages’]</strong>.</p>
+
+<p><i>page = data['page'] + 1</i></p>
+<p><i>pageCount = data['total_page']</i></p>
+
+<p>Add a pretty print and print the devices list outside of the while loop.</p>
+<p><i>pp(devices)</i></p>
+
+<p>Let’s add a print statement with the number of devices in the list.</p>
+
+<p><i>print(f"There are {len(devices)} devices in my list")</i></p>
+
+
+<pre><code id="collect">import requests
+import json
+from pprint import pprint as pp
+
+baseurl = "https://api.extremecloudiq.com"
+
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+body = {
+        "username": "extremeapilabs@gmail.com",
+        "password": "Read0nly"
+        }
+url = baseurl + '/login'
+
+response = requests.post(url,headers=headers,json=body)
+
+if response.status_code != 200:
+        print(f"Error getting access token - HTTP Status Code: {str(response.status_code)}")
+
+
+data = response.json()
+token = data['access_token']
+
+headers['Authorization'] = "Bearer " + token
+
+url = baseurl + '/devices'
+
+page = 1
+pageCount = 1
+devices = []
+
+while page <= pageCount:
+	params = {
+        	  "page": page,
+         	  "limit": 100,
+          	  "views": "Full"
+         }
+
+
+	response = requests.get(url, headers=headers, params=params)
+	data = response.json()
+	devices = devices + data['data']
+	page = page + 1
+	pageCount = data['total_pages']
+
+	pp(devices)
+	print(f"There are {len(devices)} devices in my list")	   
+
+</code><button class="copy-btn" data-clipboard-target="#collect">Copy code</button></pre>
+
+<p> After running the script,you should see a list of devices with all their information and a string printed with the number of devices.</p>
+
+
+<h1>Lab 4 (optional) - Switch between Granted Access VIQs </h1>
+
+<p>
+If your XIQ account has been granted access to other VIQs, you can use additional API calls to generate a token for one of those VIQs. Following the Lab 1 guide, you will use the /login endpoint to generate a token. This will be to access information about the VIQ the user generating the token belongs to. This will be the first step even when you want to collect data from a VIQ the user has been granted access to.
+
+The script can now collect a Bearer token, which can be used to authenticate the other XIQ API endpoints. We can now build some API calls.
+
+We must add the Bearer token to the headers to authenticate our requests. We already have a header dictionary in our scripts. So, let's add a new key, <strong>‘Authorization,’</strong> and assign the type and token to it. We can concatenate those together in a string.
+
+Open your script, and instead of printing the token, add this line.
+
+</p>
+
+<p><i>headers['Authorization'] = "Bearer " + token</i></p>
+
+<div style="border: 2px solid #000; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
+        <p style="font-weight: bold; color: #000;">NOTE: The requests module can use json= to convert the Python dictionary to JSON format. If the variable is already in JSON format, you can use data= </p>
+</div>
+
+<p>First, we will need to get a list of accounts that have been granted external access. The /account/external endpoint will be used for this.</p>
+
+<a href="https://api.extremecloudiq.com/swagger-ui/index.html#/Account/listExternalAccounts" target="_blank">https://api.extremecloudiq.com/swagger-ui/index.html#/Account/listExternalAccounts</a>
+
+<p>Create a new <strong>url</strong> variable and concatenate the <strong>baseurl</strong> with <strong>/account/external</strong></p>
+
+<p><i>url = baseurl + '/account/external’</i></p>
+
+<p>
+This will override the <strong>url</strong> variable with the new URL. This is fine for our purpose.
+Next, we will build a new GET request and assign the response object to the response variable. This also overrides the response variable.
+<p>
+<p><i>response = requests.get(url,headers=headers)</i></p>
+
+<p>Next, print the JSON data from the response. Save and run your script.</p>
+<p><i>print(response.json())</i><p>
+
+
+<pre><code id="optional">import requests
+import json
+
+baseurl = "https://api.extremecloudiq.com"
+
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+body = {
+	"username": "extremeapilabs@gmail.com",
+	"password": "Read0nly"
+	}
+url = baseurl + '/login'
+
+response = requests.post(url,headers=headers,json=body)
+
+if response.status_code != 200:
+	print(f"Error getting access token - HTTP Status Code: {str(response.status_code)}")
+
+data = response.json()
+token = data['access_token']
+
+headers['Authorization'] = "Bearer " + token
+
+url = baseurl + '/account/external'
+
+response = requests.get(url, headers=headers)
+
+print(response.json())
+
+
+
+</code><button class="copy-btn" data-clipboard-target="#optional">Copy code</button></pre>
+
+
+<p>The account used in this environment would not produce much of the output, becouse this particular accoint has only a single VIQ in the list, so probably you will get only [] as a result. If you would use a different user account which has multiple XIQ accounts in the list, you will see a list of objects. In the objects, the VIQ name and ID are included.
+With the ID of the VIQ you want to switch to, you can use the <strong>/account/:switch?id={{viq_id}}</strong> endpoint.
+
+Using the same process, we will create the URL, perform the POST call, and then update the header authorization with the new token.
+<p/>
+
+<p><i>url = baseurl + ‘/account/:switch?id={{viq_id}}</i><p>
+
+<p>replace {{viq_id}} with the id returned for the VIQ</p>
+
+<p><i>response = requests.post(url,headers=headers)</i></p>
+<p><i>data = response.json()</i></p>
+<p><i>headers[‘Authorization’] = ‘Bearer ‘ + data[‘access_token’]</i></p>
+
+<p>Here is an example of the code - replace the credentials to the account you have access to as well as VIQ ID found in previous step</p>
+
+
+<pre><code id="optional2">import requests
+import json
+
+baseurl = "https://api.extremecloudiq.com"
+
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+body = {
+    "username": "extremeapilabs@gmail.com",  #Replace your username here!!!
+    "password": "Read0nly"                   #Replace your password here!!!
+}
+
+# Login URL
+url = baseurl + '/login'
+
+# Login Request
+response = requests.post(url, headers=headers, json=body)
+
+# Check if login was successful
+if response.status_code != 200:
+    print(f"Error getting access token - HTTP Status Code: {str(response.status_code)}")
+    exit()
+
+# Extract token from response
+data = response.json()
+token = data.get('access_token')
+
+if not token:
+    print("Error: No access token found in the response")
+    exit()
+
+# Update headers with the Authorization token
+headers['Authorization'] = 'Bearer ' + token
+
+# GET request to /account/external
+url = baseurl + '/account/external'
+response = requests.get(url, headers=headers)
+
+if response.status_code == 200:
+    external_data = response.json()
+    print("External Account Data:")
+    print(json.dumps(external_data, indent=4))
+else:
+    print(f"Error fetching external account data - HTTP Status Code: {response.status_code}")
+
+# GET request to /account/:switch?id=123456 
+switch_id = 260891  # Replace with VIQ you need to get into!!!
+url = f"{baseurl}/account/{switch_id}"
+response = requests.get(url, headers=headers)
+
+if response.status_code == 200:
+    switch_data = response.json()
+    print("Switch Data:")
+    print(json.dumps(switch_data, indent=4))
+else:
+    print(f"Error fetching switch data - HTTP Status Code: {response.status_code}")
+
+# Print headers for verification
+print("Headers with Authorization token:")
+print(headers)
+
+
+</code><button class="copy-btn" data-clipboard-target="#optional2">Copy code</button></pre>
 
 
 
