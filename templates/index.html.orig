@@ -102,6 +102,7 @@
     <div id="disclaimerContainer">
         <h1>Disclaimer:</h1>
         <p> This API lab is intended for educational purposes only. It is not officially supported by Extreme Networks GTAC and operates on a best-effort basis. Any usage of the lab is at the user's own risk, and Extreme Networks does not guarantee its accuracy, reliability, or suitability for any specific purpose. Users are encouraged to exercise caution and discretion when utilizing the resources provided in this lab. Extreme Networks will not be held responsible for any consequences arising from the use of this API lab.  
+	<p>Classes are offered on a first-come, first-served basis, with a limited number of slots available. Currently number of availble slots: <span style="color: purple; font-size: larger;"><strong>{{ num_available }}</strong></span></p>
         <p> For any comments, suggestions, or inquiries, please feel free to contact us via email at: <a href="mailto:PLM-Extreme-API-Labs@extremenetworks.com">Extreme API Labs</a> </p>
     </div>
 
@@ -110,6 +111,7 @@
     {% if not_allowed %}
         <div id="messageContainer">
     	<h1>Unfortunately, we have reached our capacity for today, and no more classes are available. Please consider returning tomorrow when we can accommodate you. Classes will be available again after midnight EST (4 am UTC).</h1>
+	<h2>Number of classrooms taken: {{ num_containers }}</h2>
 	</div>
     {% else %}
         <button id="runScriptBtn"><b>Create my own API environment</b></button>

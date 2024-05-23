@@ -30,15 +30,16 @@ def home():
     image_name = "my_jupyter_image"
     tag = "latest"  # Update this with the actual tag
     num_containers = count_containers(image_name, tag)
+    num_available = 50 - num_containers
     
     # Check if the number of containers is more than 50
-    if num_containers > 50:
-        return render_template('index.html', not_allowed=True)
+    if num_containers > 50 :
+        return render_template('index.html', not_allowed=True, num_containers=num_containers)
     else:
         #    return render_template('index.html')
         template_name = request.args.get('template', 'index')
         if template_name == 'index':
-            return render_template('index.html', not_allowed=False)
+            return render_template('index.html', not_allowed=False, num_available=num_available)
         elif template_name == 'tutorial':
             return render_template('tutorial.html')
         else:
