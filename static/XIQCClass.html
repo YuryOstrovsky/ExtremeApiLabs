@@ -27,18 +27,37 @@
             border: none;
             cursor: pointer;
         }
+        nav {
+            margin: 20px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        nav ul ul {
+            padding-left: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: blue;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>Lab XIQ-C Environment</h1>
+    <nav id="toc"></nav>
+
+    <h1> XIQ-C Lab Environment</h1>
     <p>For the LAB purposes we will be using following XIQ-C and credentials:</p>
     <ul>
-	    <li>URL: https://134.141.1.228:5825 </li>
-        <li>User: roUser</li>
-        <li>Password: 3xtreme!!</li>
+	    <li>URL: <strong>https://134.141.1.228:5825</strong> </li>
+	    <li>User: <strong>roUser</strong></li>
+	    <li>Password: <strong>3xtreme!!</strong></li>
     </ul>
 
-    <h1> LAB1. API Token. </h1>
+    <h1> LAB 1. API Token. </h1>
     <h2>Importing modules</h2>
     <p>At the very beginning of the script, you would need to import at least 2 modules: <strong>requests</strong> and <strong>json</strong>.</p>
 
@@ -60,8 +79,7 @@ e.</p>
 our username and password.</p>
     <p>Lets see in details how to build this request.</p>
     <p>A POST (using requests module) will look similar to the following:</p>
-    <pre><code id="authorization-request">r = requests.post(&lt;url&gt;, json=&lt;request_body&gt;, headers=&lt;request_headers&g
-t;, verify=False)
+    <pre><code id="authorization-request">r = requests.post(&lt;url&gt;, json=&lt;request_body&gt;, headers=&lt;request_headers&gt;, verify=False)
 </code><button class="copy-btn" data-clipboard-target="#authorization-request">Copy code</button></pre>
 
     <p><strong>Where:</strong></p>
@@ -87,8 +105,7 @@ Q-C to have a certificate signed by one of the root CA (public or private). We d
 ning is to throw that into a variable so we can actu ally do something with our token.</p>
 
     <p>The request body for this request should look like this:</p>
-    <pre><code id="request-body">body = {"grantType": "password", "userId": "roUser", "password": "3xtreme!!", "scope":"myScope"
-}
+    <pre><code id="request-body">body = {"grantType": "password", "userId": "roUser", "password": "3xtreme!!", "scope":"myScope"}
 </code><button class="copy-btn" data-clipboard-target="#request-body">Copy code</button></pre>
 
     <p><code>data</code> is the variable we will pass to <code>json</code> in our POST. This request requires no special headers,
@@ -97,8 +114,7 @@ ade for us
 .</p>
 
     <p>Now you have all the bits and pieces, let’s make a POST (replace with your IP and credentials):</p>
-    <pre><code id="make-post-request">r = requests.post("https://134.141.1.228:5825/management/v1/oauth2/token", jso
-n=body, verify=False)
+    <pre><code id="make-post-request">r = requests.post("https://134.141.1.228:5825/management/v1/oauth2/token", json=body, verify=False)
 </code><button class="copy-btn" data-clipboard-target="#make-post-request">Copy code</button></pre>
 
     <p><strong><code>'r'</code></strong> contains the response from the API; we can access few things for troubleshooting and deb
@@ -180,7 +196,7 @@ see this warning, you can add this two lines in your code : </p>
 
 </code><button class="copy-btn" data-clipboard-target="#auth-token">Copy code</button></pre>
 
-<h1> LAB2. GET-ing information from XIQ-C. </h1>
+<h1> LAB 2. GET-ing information from XIQ-C. </h1>
 <p> Now since your script already able to obtain an API token we can build some userful API call.
 The system security required that every API call to XIQ-C will need to be authenticated. Authentication is
 usually passed into the request in it’s Header. The token (see Lab 1) will be used for authentication.
@@ -190,8 +206,7 @@ on).</p>
 
 <p>In this lab we will be using this API endpoint :
 </p>
-<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles/get" t
-arget="_blank">Link to Extreme Networks API Documentation</a>
+<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles/get" target="_blank">Link to Extreme Networks API Documentation</a>
 <p> </p>
 
 <p> Let’s build the Header in the same way we build Request Body in the Lab 1. </p>
@@ -375,13 +390,22 @@ print("We have " + str(len(content)) + " roles")
 
 </code><button class="copy-btn" data-clipboard-target="#roles-with-count">Copy code</button></pre>
 
-<h1> LAB3. PUT-ing information to XIQ-C</h1>
+<h1> LAB 3. POST-ing information to XIQ-C</h1>
+
+
+
+
+
+<h1> LAB 4. PUT-ing information to XIQ-C</h1>
 
 <div style="border: 2px solid #000; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
-    <p style="font-weight: bold; color: #000;">NOTE: This LAB requires some write-access to the system which is not possible with
- the offered XIQ-C. You can use the same environment of Jupyter Notebook, but you have to direct requests to your own XIQ-C.</p>
-    <p>In this lab, please replace &lt;your_own_XIQ-C&gt; with the IP address or hostname of your controller. Also, make sure you
-r user has write access permission to your controller.</p>
+	<p style="font-weight: bold; color: #000;">NOTE:This lab requires write-access to the system, which is not possible with the provided XIQ-C. You can still use the Jupyter Notebook environment, but you'll need to direct requests to your own XIQ-C.</p> 
+	<p> 
+ Please follow these steps:
+	</p>
+
+	<p>1. Replace &lt;your_own_XIQ-C&gt; with the IP address or hostname of your controller.</p>
+	<p> 2. Ensure your user account has write-access permissions to your controller.</p>
 </div>
 
 <p> Now lets do some configuration changes on XIQ-C via API.
@@ -425,5 +449,55 @@ leId%7D/get" target="_blank">Link to Extreme Networks API Documentation</a>
             });
         });
     </script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Select the container for the ToC
+    const toc = document.getElementById("toc");
+
+    // Create a list to hold the ToC entries
+    const tocList = document.createElement("ul");
+
+    // Get all the headings (h1, h2, h3)
+    const headings = document.querySelectorAll("h1, h2, h3");
+    headings.forEach((heading, index) => {
+        // Create a unique ID for each heading if it doesn't have one
+        if (!heading.id) {
+            heading.id = `heading-${index}`;
+        }
+
+        // Create the list item and link for the ToC
+        const listItem = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `#${heading.id}`;
+        link.textContent = heading.textContent;
+
+        // Nest the list items according to heading level
+        if (heading.tagName === "H2") {
+            let parentItem = tocList.lastElementChild;
+            if (!parentItem.querySelector("ul")) {
+                const subList = document.createElement("ul");
+                parentItem.appendChild(subList);
+            }
+            parentItem.querySelector("ul").appendChild(listItem);
+        } else if (heading.tagName === "H3") {
+            let parentItem = tocList.lastElementChild.querySelector("ul").lastElementChild;
+            if (!parentItem.querySelector("ul")) {
+                const subSubList = document.createElement("ul");
+                parentItem.appendChild(subSubList);
+            }
+            parentItem.querySelector("ul").appendChild(listItem);
+        } else {
+            tocList.appendChild(listItem);
+        }
+
+        listItem.appendChild(link);
+    });
+
+    // Add the ToC list to the container
+    toc.appendChild(tocList);
+});
+</script>
+
 </body>
 </html>

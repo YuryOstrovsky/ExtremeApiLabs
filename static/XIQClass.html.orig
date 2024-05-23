@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XIQ Lab</title>
+    <title>Lab XIQ Environment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
@@ -27,35 +27,16 @@
             border: none;
             cursor: pointer;
         }
-        nav {
-            margin: 20px;
-        }
-        nav ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        nav ul ul {
-            padding-left: 20px;
-        }
-        nav a {
-            text-decoration: none;
-            color: blue;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }	
     </style>
 </head>
 <body>
-	<nav id="toc"></nav>
-
-	<h1> XIQ Lab Environment</h1>
+	<h1> Lab XIQ Environment</h1>
 
 	<p> We can use Extreme Remote Demo lab with read-only access to complete this labs. You can use your own ExtremeCloud IQ credentials to work with your own cloud accountfrom the same Jupyter Notebook environment.</p>
 
 	<ul>
-		<li> Username: <strong>extremeapilabs@gmail.com</strong> </li>
-		<li> Password: <strong>Read0nly</strong> </li>
+		<li> Username: extremeapilabs@gmail.com </li>
+		<li> Password: Read0nly </li>
 
 	</ul>
 
@@ -988,56 +969,6 @@ print(headers)
             });
         });
     </script>
-
-    <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Select the container for the ToC
-    const toc = document.getElementById("toc");
-
-    // Create a list to hold the ToC entries
-    const tocList = document.createElement("ul");
-
-    // Get all the headings (h1, h2, h3)
-    const headings = document.querySelectorAll("h1, h2, h3");
-    headings.forEach((heading, index) => {
-        // Create a unique ID for each heading if it doesn't have one
-        if (!heading.id) {
-            heading.id = `heading-${index}`;
-        }
-
-        // Create the list item and link for the ToC
-        const listItem = document.createElement("li");
-        const link = document.createElement("a");
-        link.href = `#${heading.id}`;
-        link.textContent = heading.textContent;
-
-        // Nest the list items according to heading level
-        if (heading.tagName === "H2") {
-            let parentItem = tocList.lastElementChild;
-            if (!parentItem.querySelector("ul")) {
-                const subList = document.createElement("ul");
-                parentItem.appendChild(subList);
-            }
-            parentItem.querySelector("ul").appendChild(listItem);
-        } else if (heading.tagName === "H3") {
-            let parentItem = tocList.lastElementChild.querySelector("ul").lastElementChild;
-            if (!parentItem.querySelector("ul")) {
-                const subSubList = document.createElement("ul");
-                parentItem.appendChild(subSubList);
-            }
-            parentItem.querySelector("ul").appendChild(listItem);
-        } else {
-            tocList.appendChild(listItem);
-        }
-
-        listItem.appendChild(link);
-    });
-
-    // Add the ToC list to the container
-    toc.appendChild(tocList);
-});
-</script>
-
 </body>
 </html>
 

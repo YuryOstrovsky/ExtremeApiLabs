@@ -33,59 +33,81 @@
     <h1>Lab XIQ-C Environment</h1>
     <p>For the LAB purposes we will be using following XIQ-C and credentials:</p>
     <ul>
-	    <li>URL: <a href="https://xca.plm.extremewireless.ca:5825" target="_blank"> https://xca.plm.extremewireless.ca:5825</a></li>
-        <li>User: readonly</li>
-        <li>Password: Extreme!</li>
+	    <li>URL: https://134.141.1.228:5825 </li>
+        <li>User: roUser</li>
+        <li>Password: 3xtreme!!</li>
     </ul>
 
     <h1> LAB1. API Token. </h1>
     <h2>Importing modules</h2>
-    <p>At the very beginning of the script, you would need to import at least 2 modules: <code>requests</code> and <code>json</code>.</p>
-    <p><strong>Requests</strong> is a HTTP library written in PHP, for human beings. It is roughly based on the API from the excellent Requests Python library. Requests al lows you to send HEAD, GET, POST, PUT, DELETE, and PATCH HTTP requests. You can add headers, form data, multipart files, and parameters with simple arrays, and access the response data in the same way. JSON will let you turn JSON formatted strings to python dictionaries, and vice versa.</p>
-    <p>To import a module in python on a single line you write <code>import &lt;module_name&gt;</code>. For our purposes the first two lines of your script should look like this:</p
+    <p>At the very beginning of the script, you would need to import at least 2 modules: <strong>requests</strong> and <strong>json</strong>.</p>
+
+    <p><strong>Requests</strong> is a HTTP library written in PHP, for human beings. It is roughly based on the API from the exce
+llent Requests Python library. Requests al lows you to send HEAD, GET, POST, PUT, DELETE, and PATCH HTTP requests. You can add he
+aders, form data, multipart files, and parameters with simple arrays, and access the response data in the same way. JSON will let
+ you turn JSON formatted strings to python dictionaries, and vice versa.</p>
+    <p>To import a module in python on a single line you write <code>import &lt;module_name&gt;</code>. For our purposes the firs
+t two lines of your script should look like this:</p
 >
     <pre><code id="import-modules">import requests
 import json
 </code><button class="copy-btn" data-clipboard-target="#import-modules">Copy code</button></pre>
 
     <h2>Authorization and first request</h2>
-    <p>Most API calls to the XIQ-C expect that you will pass a token in the header that signifies that you are who you say you are.</p>
-    <p>The API provides a way to get this token: you need to do a POST request to <code>/management/v1/oauth2/token</code> with your username and password.</p>
+    <p>Most API calls to the XIQ-C expect that you will pass a token in the header that signifies that you are who you say you ar
+e.</p>
+    <p>The API provides a way to get this token: you need to do a POST request to <code>/management/v1/oauth2/token</code> with y
+our username and password.</p>
     <p>Lets see in details how to build this request.</p>
     <p>A POST (using requests module) will look similar to the following:</p>
-    <pre><code id="authorization-request">r = requests.post(&lt;url&gt;, json=&lt;request_body&gt;, headers=&lt;request_headers&gt;, verify=False)
+    <pre><code id="authorization-request">r = requests.post(&lt;url&gt;, json=&lt;request_body&gt;, headers=&lt;request_headers&g
+t;, verify=False)
 </code><button class="copy-btn" data-clipboard-target="#authorization-request">Copy code</button></pre>
 
     <p><strong>Where:</strong></p>
     <ul>
-        <li><code>&lt;url&gt;</code>: is the full URL of the API endpoint we want to talk to. It will be something like that: <code>https://xca.plm.extremewireless.ca:5825
+        <li><code>&lt;url&gt;</code>: is the full URL of the API endpoint we want to talk to. It will be something like that: <co
+de>https://134.141.1.228:5825
 /managemen
 t/v1/oauth2/token</code></li>
-        <li><code>&lt;request_body&gt;</code>: the body of the HTTP request; in a case of obtaining a token, that is where we want to put our username and password. The HTTP request itself will have this in JSON format, but here we can use a Python dictionary and <code>requests</code> module will transform it for us.</li>
-        <li><code>&lt;request_headers&gt;</code>: the headers of the HTTP request; if you are accessing some other API this is where you would put your access token, and things like what format you expect the API to respond in, and what format you are sending it data in. For this request we need no headers, so all of <code>headers=&lt;request_headers
+        <li><code>&lt;request_body&gt;</code>: the body of the HTTP request; in a case of obtaining a token, that is where we wan
+t to put our username and password. The HTTP request itself will have this in JSON format, but here we can use a Python dictionar
+y and <code>requests</code> module will transform it for us.</li>
+        <li><code>&lt;request_headers&gt;</code>: the headers of the HTTP request; if you are accessing some other API this is wh
+ere you would put your access token, and things like what format you expect the API to respond in, and what format you are sendin
+g it data in. For this request we need no headers, so all of <code>headers=&lt;request_headers
 &gt;</code
 >, can be omitted entirely.</li>
-        <li><code>verify=False</code>: since we are sending requests using HTTPS, <code>requests</code> module will expect the XIQ-C to have a certificate signed by one of the root CA (public or private). We did not bother installing any valid certificate to XIQ-C in our lab. To skip the certificate validation, we would need to set this option to False.</li>
+        <li><code>verify=False</code>: since we are sending requests using HTTPS, <code>requests</code> module will expect the XI
+Q-C to have a certificate signed by one of the root CA (public or private). We did not bother installing any valid certificate to
+ XIQ-C in our lab. To skip the certificate validation, we would need to set this option to False.</li>
     </ul>
 
-    <p>This method call will return an object representing the response we got from the API, so the <code>r =</code> at the beginning is to throw that into a variable so we can actu ally do something with our token.</p>
+    <p>This method call will return an object representing the response we got from the API, so the <code>r =</code> at the begin
+ning is to throw that into a variable so we can actu ally do something with our token.</p>
 
     <p>The request body for this request should look like this:</p>
-    <pre><code id="request-body">body = {"grantType": "password", "userId": "readonly", "password": "Extreme!", "scope":"myScope"}
+    <pre><code id="request-body">body = {"grantType": "password", "userId": "roUser", "password": "3xtreme!!", "scope":"myScope"
+}
 </code><button class="copy-btn" data-clipboard-target="#request-body">Copy code</button></pre>
 
-    <p><code>data</code> is the variable we will pass to <code>json</code> in our POST. This request requires no special headers, any standard ones will be automatically m
+    <p><code>data</code> is the variable we will pass to <code>json</code> in our POST. This request requires no special headers,
+ any standard ones will be automatically m
 ade for us
 .</p>
 
     <p>Now you have all the bits and pieces, let’s make a POST (replace with your IP and credentials):</p>
-    <pre><code id="make-post-request">r = requests.post("https://xca.plm.extremewireless.ca:5825/management/v1/oauth2/token", json=body, verify=False)
+    <pre><code id="make-post-request">r = requests.post("https://134.141.1.228:5825/management/v1/oauth2/token", jso
+n=body, verify=False)
 </code><button class="copy-btn" data-clipboard-target="#make-post-request">Copy code</button></pre>
 
-    <p><strong><code>'r'</code></strong> contains the response from the API; we can access few things for troubleshooting and debugging here:</p>
+    <p><strong><code>'r'</code></strong> contains the response from the API; we can access few things for troubleshooting and deb
+ugging here:</p>
 
-    <p><strong><code>'r.headers'</code></strong> - a python dictionary with all the headers of the response, things like body data format, </p>
-	<p><strong><code>r.content'</code></strong> - the body of the response, if you send a GET this is probably what you were looking for.</p>
+    <p><strong><code>'r.headers'</code></strong> - a python dictionary with all the headers of the response, things like body dat
+a format, </p>
+	<p><strong><code>r.content'</code></strong> - the body of the response, if you send a GET this is probably what you were 
+looking for.</p>
 
 
     <p>Let’s grab the body of the response, and use json module to convert it into a python object:</p>
@@ -98,7 +120,8 @@ ade for us
     <pre><code id="get-access-token">auth_t = content["access_token"]
 </code><button class="copy-btn" data-clipboard-target="#get-access-token">Copy code</button></pre>
 
-    <p>Variable <code>auth_t</code> should now contain the token that will allow you to make authorized requests to all the other parts of the API, print it out with the following line to see what it looks like:</p>
+    <p>Variable <code>auth_t</code> should now contain the token that will allow you to make authorized requests to all the other
+ parts of the API, print it out with the following line to see what it looks like:</p>
 
     <pre><code id="print-token">print(auth_t)
 </code><button class="copy-btn" data-clipboard-target="#print-token">Copy code</button></pre>
@@ -109,8 +132,8 @@ ade for us
 import json
 
 # Authorization and first request
-url = "https://xca.plm.extremewireless.ca:5825/management/v1/oauth2/token"
-body = {"grantType": "password", "userId": "readonly", "password": "Extreme!", "scope":"myScope"}
+url = "https://134.141.1.228:5825/management/v1/oauth2/token"
+body = {"grantType": "password", "userId": "roUser", "password": "3xtreme!!", "scope":"myScope"}
 r = requests.post(url, json=body, verify=False)
 
 # Parse response
@@ -122,7 +145,8 @@ print(auth_t)
 
 </code><button class="copy-btn" data-clipboard-target="#final-script">Copy code</button></pre>
 
-        <p>Together with the token you probably see some ugly warning regarding the absense of certificate. If you don't want to see this warning, you can add this two lines in your code : </p>
+        <p>Together with the token you probably see some ugly warning regarding the absense of certificate. If you don't want to 
+see this warning, you can add this two lines in your code : </p>
 
 	<pre><code id="remove-warning"> import urllib3
  urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -140,8 +164,8 @@ print(auth_t)
  import json
 
  # Authorization and first request
- url = "https://xca.plm.extremewireless.ca:5825/management/v1/oauth2/token"
- body = {"grantType": "password", "userId": "readonly", "password": "Extreme!", "scope":"myScope"}
+ url = "https://134.141.1.228:5825/management/v1/oauth2/token"
+ body = {"grantType": "password", "userId": "roUser", "password": "3xtreme!!", "scope":"myScope"}
  r = requests.post(url, json=body, verify=False)
 
  # Parse response
@@ -166,7 +190,8 @@ on).</p>
 
 <p>In this lab we will be using this API endpoint :
 </p>
-<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles/get" target="_blank">Link to Extreme Networks API Documentation</a>
+<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles/get" t
+arget="_blank">Link to Extreme Networks API Documentation</a>
 <p> </p>
 
 <p> Let’s build the Header in the same way we build Request Body in the Lab 1. </p>
@@ -190,15 +215,20 @@ this field is generally expected regardless.</p>
 we also want to work with JSON so we set it to the same thing as the `Content-Type`.</p>
 
 <p>We added <strong>.decode()</strong> to the <strong>auth_t</strong> ?
-In Python 3, the requests library returns responses as byte strings (bytes) by default. When you decode these byte strings to regular strings using the decode() method, you convert them from their byte representation to a string representation, usually using a specific character encoding like UTF-8.
+In Python 3, the requests library returns responses as byte strings (bytes) by default. When you decode these byte strings to reg
+ular strings using the decode() method, you convert them from their byte representation to a string representation, usually using
+ a specific character encoding like UTF-8.
 
-So, when you retrieve content from the response object (r.content), it's in bytes, and if you want to print it directly, you need to decode it to convert it into a readable string format. That's why you use decode() to convert bytes to strings before printing.
+So, when you retrieve content from the response object (r.content), it's in bytes, and if you want to print it directly, you need
+ to decode it to convert it into a readable string format. That's why you use decode() to convert bytes to strings before printin
+g.
 </p>
 
 <p>Header is ready , now make the API call :
 </p>
 
-<pre><code id="request-get">r = requests.get("https://xca.plm.extremewireless.ca:5825/management/v3/roles", headers=headers, verify=False)
+<pre><code id="request-get">r = requests.get("https://134.141.1.228:5825/management/v3/roles", headers=headers, veri
+fy=False)
 print(r.content)
 </code><button class="copy-btn" data-clipboard-target="#request-get">Copy code</button></pre>
 
@@ -210,8 +240,8 @@ print(r.content)
  import json
 
  # Authorization and first request
- url = "https://xca.plm.extremewireless.ca:5825/management/v1/oauth2/token"
- body = {"grantType": "password", "userId": "readonly", "password": "Extreme!", "scope":"myScope"}
+ url = "https://134.141.1.228:5825/management/v1/oauth2/token"
+ body = {"grantType": "password", "userId": "roUser", "password": "3xtreme!!", "scope":"myScope"}
  r = requests.post(url, json=body, verify=False)
 
  r.status_code
@@ -232,7 +262,7 @@ print(r.content)
  	    'Content-Type':'application/json',
 	    'Accept':'application/json'
 	    }
-r = requests.get("https://xca.plm.extremewireless.ca:5825/management/v3/roles",headers=headers, verify=False)
+r = requests.get("https://134.141.1.228:5825/management/v3/roles",headers=headers, verify=False)
 print(r.content)
 
 </code><button class="copy-btn" data-clipboard-target="#request-get-script">Copy code</button></pre>
@@ -261,8 +291,8 @@ Here is how the script looks like now:
  import json
 
  # Authorization and first request
- url = "https://xca.plm.extremewireless.ca:5825/management/v1/oauth2/token"
- body = {"grantType": "password", "userId": "readonly", "password": "Extreme!", "scope":"myScope"}
+ url = "https://134.141.1.228:5825/management/v1/oauth2/token"
+ body = {"grantType": "password", "userId": "roUser", "password": "3xtreme!!", "scope":"myScope"}
  r = requests.post(url, json=body, verify=False)
 
  r.status_code
@@ -280,7 +310,7 @@ Here is how the script looks like now:
  	    'Content-Type':'application/json',
 	    'Accept':'application/json'
 	    }
-r = requests.get("https://xca.plm.extremewireless.ca:5825/management/v3/roles",headers=headers, verify=False)
+r = requests.get("https://134.141.1.228:5825/management/v3/roles",headers=headers, verify=False)
 
 content = json.loads(r.content)
 
@@ -312,8 +342,8 @@ Your scrip now looks like that :
  import json
 
  # Authorization and first request
- url = "https://xca.plm.extremewireless.ca:5825/management/v1/oauth2/token"
- body = {"grantType": "password", "userId": "readonly", "password": "Extreme!", "scope":"myScope"}
+ url = "https://134.141.1.228:5825/management/v1/oauth2/token"
+ body = {"grantType": "password", "userId": "roUser", "password": "3xtreme!!", "scope":"myScope"}
  r = requests.post(url, json=body, verify=False)
 
  r.status_code
@@ -331,7 +361,7 @@ Your scrip now looks like that :
  	    'Content-Type':'application/json',
 	    'Accept':'application/json'
 	    }
-r = requests.get("https://xca.plm.extremewireless.ca:5825/management/v3/roles",headers=headers, verify=False)
+r = requests.get("https://134.141.1.228:5825/management/v3/roles",headers=headers, verify=False)
 
 content = json.loads(r.content)
 
@@ -348,15 +378,18 @@ print("We have " + str(len(content)) + " roles")
 <h1> LAB3. PUT-ing information to XIQ-C</h1>
 
 <div style="border: 2px solid #000; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
-    <p style="font-weight: bold; color: #000;">NOTE: This LAB requires some write-access to the system which is not possible with the offered XIQ-C. You can use the same environment of Jupyter Notebook, but you have to direct requests to your own XIQ-C.</p>
-    <p>In this lab, please replace &lt;your_own_XIQ-C&gt; with the IP address or hostname of your controller. Also, make sure your user has write access permission to your controller.</p>
+    <p style="font-weight: bold; color: #000;">NOTE: This LAB requires some write-access to the system which is not possible with
+ the offered XIQ-C. You can use the same environment of Jupyter Notebook, but you have to direct requests to your own XIQ-C.</p>
+    <p>In this lab, please replace &lt;your_own_XIQ-C&gt; with the IP address or hostname of your controller. Also, make sure you
+r user has write access permission to your controller.</p>
 </div>
 
 <p> Now lets do some configuration changes on XIQ-C via API.
 We will be using this API endpoint in the lab :
 </p>
 
-<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles/post" target="_blank">Link to Extreme Networks API Documentation</a>
+<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles/post" 
+target="_blank">Link to Extreme Networks API Documentation</a>
 
 <p>The way modification works with the XIQ-C REST API is that it expects you to send the entire object with all the
 changes; you can’t only send the parts you care about. So the way to modify something is to first GET the existing
@@ -367,7 +400,8 @@ object, modify whatever you want, then PUT it back in.
 what the API wants to know if you ask it for a specific role, so if we want to get the info for only one of our
 roles, we would use this endpoint: </p>
 
-<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles~1%7BroleId%7D/get" target="_blank">Link to Extreme Networks API Documentation</a>
+<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles~1%7Bro
+leId%7D/get" target="_blank">Link to Extreme Networks API Documentation</a>
 
 <p>You can do a GET request on it just like in the previous LAB2, but this time the url will look like:</p>
 <p><strong>https://&lt;your_own_XIQ-C&gt;:5825/management/v3/roles/&lt;role id&gt;</strong></p>
@@ -393,4 +427,3 @@ roles, we would use this endpoint: </p>
     </script>
 </body>
 </html>
-
