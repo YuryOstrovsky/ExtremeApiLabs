@@ -50,10 +50,10 @@
     <nav id="toc"></nav>
 
     <h1> XIQ-C Lab Environment</h1>
-    <p>For the LAB purposes we will be using following XIQ-C and credentials:</p>
+    <p>We can use the Extreme Remote Demo Lab's ExtremeCloud&trade;IQ Controller (XIQ-C) with <strong>read-only</strong> access to complete the majority of these labs. However, Labs #3 and #4 require user permissions with <strong>write access</strong>, so please use your own environment for these tasks.</p>
     <ul>
-	    <li>URL: <strong>https://134.141.1.228:5825</strong> </li>
-	    <li>User: <strong>roUser</strong></li>
+	    <li>Lab XIQ-C URL: <strong>https://134.141.1.228:5825</strong> </li>
+	    <li>Username: <strong>roUser</strong></li>
 	    <li>Password: <strong>3xtreme!!</strong></li>
     </ul>
 
@@ -65,18 +65,15 @@
 llent Requests Python library. Requests al lows you to send HEAD, GET, POST, PUT, DELETE, and PATCH HTTP requests. You can add he
 aders, form data, multipart files, and parameters with simple arrays, and access the response data in the same way. JSON will let
  you turn JSON formatted strings to python dictionaries, and vice versa.</p>
-    <p>To import a module in python on a single line you write <code>import &lt;module_name&gt;</code>. For our purposes the firs
-t two lines of your script should look like this:</p
+    <p>To import a module in python on a single line you write <code>import &lt;module_name&gt;</code>. For our purposes the first two lines of your script should look like this:</p
 >
     <pre><code id="import-modules">import requests
 import json
 </code><button class="copy-btn" data-clipboard-target="#import-modules">Copy code</button></pre>
 
     <h2>Authorization and first request</h2>
-    <p>Most API calls to the XIQ-C expect that you will pass a token in the header that signifies that you are who you say you ar
-e.</p>
-    <p>The API provides a way to get this token: you need to do a POST request to <code>/management/v1/oauth2/token</code> with y
-our username and password.</p>
+    <p>Most API calls to the XIQ-C expect that you will pass a token in the header that signifies that you are who you say you are.</p>
+    <p>The API provides a way to get this token: you need to do a POST request to <strong>/management/v1/oauth2/token</strong> with your username and password.</p>
     <p>Lets see in details how to build this request.</p>
     <p>A POST (using requests module) will look similar to the following:</p>
     <pre><code id="authorization-request">r = requests.post(&lt;url&gt;, json=&lt;request_body&gt;, headers=&lt;request_headers&gt;, verify=False)
@@ -84,46 +81,35 @@ our username and password.</p>
 
     <p><strong>Where:</strong></p>
     <ul>
-        <li><code>&lt;url&gt;</code>: is the full URL of the API endpoint we want to talk to. It will be something like that: <co
-de>https://134.141.1.228:5825
-/managemen
-t/v1/oauth2/token</code></li>
-        <li><code>&lt;request_body&gt;</code>: the body of the HTTP request; in a case of obtaining a token, that is where we wan
-t to put our username and password. The HTTP request itself will have this in JSON format, but here we can use a Python dictionar
-y and <code>requests</code> module will transform it for us.</li>
-        <li><code>&lt;request_headers&gt;</code>: the headers of the HTTP request; if you are accessing some other API this is wh
-ere you would put your access token, and things like what format you expect the API to respond in, and what format you are sendin
-g it data in. For this request we need no headers, so all of <code>headers=&lt;request_headers
-&gt;</code
->, can be omitted entirely.</li>
-        <li><code>verify=False</code>: since we are sending requests using HTTPS, <code>requests</code> module will expect the XI
-Q-C to have a certificate signed by one of the root CA (public or private). We did not bother installing any valid certificate to
- XIQ-C in our lab. To skip the certificate validation, we would need to set this option to False.</li>
+        <li><code>&lt;url&gt;</code>: is the full URL of the API endpoint we want to talk to. It will be something like that:
+		<p><i>https://134.141.1.228:5825/managemen t/v1/oauth2/token</i></p>
+			</code></li>
+        <li><code>&lt;request_body&gt;</code>: the body of the HTTP request; in a case of obtaining a token, that is where we want to put our username and password. The HTTP request itself will have this in JSON format, but here we can use a Python dictionary and <strong>requests</strong> module will transform it for us.</li>
+	<p></p>
+
+        <li><code>&lt;request_headers&gt;</code>: the headers of the HTTP request; if you are accessing some other API this is where you would put your access token, and things like what format you expect the API to respond in, and what format you are sending it data in. For this request we need no headers, so all of <strong>headers=&lt;request_headers&gt;</strong>, can be omitted entirely.</li>
+
+	<p></p>
+
+        <li><code>verify=False</code>: since we are sending requests using HTTPS, <code>requests</code> module will expect the XIQ-C to have a certificate signed by one of the root CA (public or private). We did not bother installing any valid certificate to XIQ-C in our lab. To skip the certificate validation, we would need to set this option to False.</li>
     </ul>
 
-    <p>This method call will return an object representing the response we got from the API, so the <code>r =</code> at the begin
-ning is to throw that into a variable so we can actu ally do something with our token.</p>
+    <p>This method call will return an object representing the response we got from the API, so the <strong>r =</strong> at the beginning is to throw that into a variable so we can actu ally do something with our token.</p>
 
     <p>The request body for this request should look like this:</p>
     <pre><code id="request-body">body = {"grantType": "password", "userId": "roUser", "password": "3xtreme!!", "scope":"myScope"}
 </code><button class="copy-btn" data-clipboard-target="#request-body">Copy code</button></pre>
 
-    <p><code>data</code> is the variable we will pass to <code>json</code> in our POST. This request requires no special headers,
- any standard ones will be automatically m
-ade for us
-.</p>
+    <p><strong>data</strong> is the variable we will pass to <strong>json</strong> in our POST. This request requires no special headers,any standard ones will be automatically made for us.</p>
 
-    <p>Now you have all the bits and pieces, let’s make a POST (replace with your IP and credentials):</p>
+    <p>Now you have all the bits and pieces, let’s make a POST :</p>
     <pre><code id="make-post-request">r = requests.post("https://134.141.1.228:5825/management/v1/oauth2/token", json=body, verify=False)
 </code><button class="copy-btn" data-clipboard-target="#make-post-request">Copy code</button></pre>
 
-    <p><strong><code>'r'</code></strong> contains the response from the API; we can access few things for troubleshooting and deb
-ugging here:</p>
+    <p><strong><code>'r'</code></strong> contains the response from the API; we can access few things for troubleshooting and debugging here:</p>
 
-    <p><strong><code>'r.headers'</code></strong> - a python dictionary with all the headers of the response, things like body dat
-a format, </p>
-	<p><strong><code>r.content'</code></strong> - the body of the response, if you send a GET this is probably what you were 
-looking for.</p>
+    <p><strong><code>'r.headers'</code></strong> - a python dictionary with all the headers of the response, things like body data format, </p>
+	<p><strong><code>'r.content'</code></strong> - the body of the response, if you send a GET this is probably what you were looking for.</p>
 
 
     <p>Let’s grab the body of the response, and use json module to convert it into a python object:</p>
@@ -131,13 +117,12 @@ looking for.</p>
     <pre><code id="parse-response">content = json.loads(r.content)
 </code><button class="copy-btn" data-clipboard-target="#parse-response">Copy code</button></pre>
 
-    <p>Get the <code>access_token</code> field from the object (“content”) you just made:</p>
+    <p>Get the <strong>access_token</strong> field from the object (“content”) you just made:</p>
 
     <pre><code id="get-access-token">auth_t = content["access_token"]
 </code><button class="copy-btn" data-clipboard-target="#get-access-token">Copy code</button></pre>
 
-    <p>Variable <code>auth_t</code> should now contain the token that will allow you to make authorized requests to all the other
- parts of the API, print it out with the following line to see what it looks like:</p>
+    <p>Variable <strong>auth_t</strong> should now contain the token that will allow you to make authorized requests to all the otherparts of the API, print it out with the following line to see what it looks like:</p>
 
     <pre><code id="print-token">print(auth_t)
 </code><button class="copy-btn" data-clipboard-target="#print-token">Copy code</button></pre>
@@ -161,8 +146,7 @@ print(auth_t)
 
 </code><button class="copy-btn" data-clipboard-target="#final-script">Copy code</button></pre>
 
-        <p>Together with the token you probably see some ugly warning regarding the absense of certificate. If you don't want to 
-see this warning, you can add this two lines in your code : </p>
+        <p>Together with the token you probably see some ugly warning regarding the absense of certificate. If you don't want to see this warning, you can add this two lines in your code : </p>
 
 	<pre><code id="remove-warning"> import urllib3
  urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -219,24 +203,16 @@ on).</p>
 
 </code><button class="copy-btn" data-clipboard-target="#headers">Copy code</button></pre>
 
-<p>The <strong>`Authorization`</strong> field is the one we pass our token in; the XIQ-C expects it to be of the form “Bearer
-<token>”, so we add “Bearer “ before our token.</p>
+<p>The <strong>`Authorization`</strong> field is the one we pass our token in; the XIQ-C expects it to be of the form “Bearer &lt;token&gt;”, so we add “Bearer “ before our token.</p>
 
-<p>The <strong>`Content-Type`</strong> field tells the API what format the body of your request is in: `application/json` is very
-common and just means the body will be a JSON formatted string. Our request does not require a body but
-this field is generally expected regardless.</p>
+<p>The <strong>`Content-Type`</strong> field tells the API what format the body of your request is in: `application/json` is very common and just means the body will be a JSON formatted string. Our request does not require a body but this field is generally expected regardless.</p>
 
-<p>The <strong>`Accept`</strong> field tells the API what data format we expect in the body of the response it sends back to us,
-we also want to work with JSON so we set it to the same thing as the `Content-Type`.</p>
+<p>The <strong>`Accept`</strong> field tells the API what data format we expect in the body of the response it sends back to us,we also want to work with JSON so we set it to the same thing as the `Content-Type`.</p>
 
-<p>We added <strong>.decode()</strong> to the <strong>auth_t</strong> ?
-In Python 3, the requests library returns responses as byte strings (bytes) by default. When you decode these byte strings to reg
-ular strings using the decode() method, you convert them from their byte representation to a string representation, usually using
- a specific character encoding like UTF-8.
+<p>We added <strong>.decode()</strong> to the <strong>auth_t</strong>. 
+In Python 3, the requests library returns responses as byte strings (bytes) by default. When you decode these byte strings to regular strings using the decode() method, you convert them from their byte representation to a string representation, usually using a specific character encoding like UTF-8.
 
-So, when you retrieve content from the response object (r.content), it's in bytes, and if you want to print it directly, you need
- to decode it to convert it into a readable string format. That's why you use decode() to convert bytes to strings before printin
-g.
+So, when you retrieve content from the response object (r.content), it's in bytes, and if you want to print it directly, you need to decode it to convert it into a readable string format. That's why you use <strong>decode()</strong> to convert bytes to strings before printing.
 </p>
 
 <p>Header is ready , now make the API call :
@@ -282,8 +258,7 @@ print(r.content)
 
 </code><button class="copy-btn" data-clipboard-target="#request-get-script">Copy code</button></pre>
 
-<p> You just executed it , right? Do you like the output ? Not really . It is somewhat readable , but you
-probably want to see just roles , and maybe ID’s ?
+<p> You just executed it , right? Do you like the output ? Not really . It is somewhat readable , but you probably want to see just roles , and maybe ID’s ?
 Let’s tune it a bit.
 
 Instead of <strong>print(r.content.decode())</strong> line , replace it with that something which make it cleaner :
@@ -295,8 +270,7 @@ for role in content:
 </code><button class="copy-btn" data-clipboard-target="#role-list">Copy code</button></pre>
 
 <p> What we just did? We took the whole JSON payload and parsed it. Every string of JSON become a python
-object (list in this case). Then we just use a loop (for) through this list and print out the names and matching IDs
-of our roles.
+object (list in this case). Then we just use a loop (for) through this list and print out the names and matching IDs of our roles.
 Here is how the script looks like now:
 </p>
 
@@ -392,6 +366,118 @@ print("We have " + str(len(content)) + " roles")
 
 <h1> LAB 3. POST-ing information to XIQ-C</h1>
 
+<div style="border: 2px solid #000; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
+        <p style="font-weight: bold; color: #000;">NOTE:This lab requires write-access to the system, which is not possible with the provided XIQ-C. You can still use the Jupyter Notebook environment, but you'll need to direct requests to your own XIQ-C.</p>
+        <p>
+ Please follow these steps:
+        </p>
+
+        <p>1. Replace &lt;your_own_XIQ-C&gt; with the IP address or hostname of your controller.</p>
+        <p> 2. Ensure your user account has write-access permissions to your controller.</p>
+</div>
+
+<p>Now let’s try creating a brand new role using this API:</p>
+<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles/post" 
+target="_blank">Link to Extreme Networks API Documentation</a>
+
+<p>We can build our headers the same way we did when we were getting information, nothing is different.</p>
+<p><i>headers = {</i></p>
+<p><i>    'Authorization':"Bearer "+ auth_t,</i></p>
+<p><i>    'Content-Type':'application/json',</i></p>
+<p><i>    'Accept':'application/json'</i></p>
+<p><i>}</i></p>
+
+<p>But now we will need to build a body like we did when authenticating, except instead of our username and password we will be sending a definition for the new Role we want to create.<p>
+
+<p><i>body = {</i></p>
+<p><i>    'name':"Student",</i></p>
+<p><i>    'defaultAction':"deny",</i></p>
+<p><i>    'defaultCos':"1eea4d66-2607-11e7-93ae-92361f002671"</i></p>
+<p><i>}</i></p>
+
+<p>
+If you looked through the API documentation above you might have noticed that there are a lot of fields we can send in this request, but only three of them are marked “required”. These three fields are the only ones we need to make this request work, any others will have default values applied when left blank. The three fields here are:</p>
+
+<p><strong>	name:</strong> This is what the Role will be shown as in the UI.</p>
+<p><strong>	defaultAction:</strong> Can be one of `allow`, `deny`, or `containToVlan`. This is the default access control when none of the rules match.</p>
+<p><strong>	defaultCos:</strong> The class of service to assign when none of the rules match. This field needs to the UUID of a CoS object already defined in your XIQ-C. You can find a valid UUID by using the API to look at your other Roles, or by getting a list of CoS IDs from the `/management/v1/cos/nametoidmap` API. There is a default CoS ID on every XIQ-C for “No CoS” that is used in this example, so no need to go the extra mile.</p>
+
+<p>Now we can send the request, note that we are using “post” for this request and not “get” like last time.</p>
+
+<p><i>r = requests.post("https://&lt;your_own_XIQ-C&gt;:5825/management/v3/roles", json=body, headers=headers, verify=False)</i></p>
+
+<p>
+When an object creation request like this succeeds the response is the the same new object, to print the full response somewhat nicely we can do the following. This bit of code parses the JSON string into a python object, then writes it back to a JSON string again except with some nice indentation (the “4” is how many spaces to use for each indentation level).
+</p>
+
+<p><i>content = json.loads(r.content)</i></p>
+<p><i>print(json.dumps(content, indent=4))</i></p>
+
+<p>You can see the final object has a lot more fields than just the ones we set, filled with default values. If you go to your XIQ-C and take a look in the UI you should be able to find a new Role named “Student”.</p>
+
+<p>Your final code should look something like this:</p>
+
+
+<pre><code id="post-student"># Import the necessary libraries
+import urllib3
+import requests
+import json
+
+# Disable SSL warnings (InsecureRequestWarning)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# Define the URL for the OAuth2 token request - MAKE SURE YOU REPLACE WITH YOUR XIQ-C IP/HOSTNAME!!!
+
+url = "https://&lt;your_own_XIQ-C&gt;:5825"
+
+# The end-point for the OUATH2 call : 
+url_oauth = url + "/management/v1/oauth2/token"
+
+# Define the body for the OAuth2 token request - MAKE SURE YOU REPLACE WITH YOUR USERNAME/PASSWORD!!!
+body = {
+    "grantType": "password",  # Type of grant being requested
+    "userId": "&lt;your user&gt;",  # Your username
+    "password": "&lt;your password&gt;",  # Your password
+    "scope": "myScope"  # Scope of the access request
+}
+
+# Make a POST request to get the OAuth2 token
+r = requests.post(url_oauth, json=body, verify=False)
+
+# Parse the response to get the content
+content = json.loads(r.content)
+
+# Extract the access token from the response
+auth_t = content["access_token"]
+
+# Define headers for the API call to POST a Role to XIQ-C
+headers = {
+    'Authorization': "Bearer " + auth_t,  # Bearer token for authorization
+    'Content-Type': 'application/json',  # Content type of the request
+    'Accept': 'application/json'  # Expected response content type
+}
+
+# Define the body for the role creation request
+body = {
+    'name': "Student",  # Name of the role
+    'defaultAction': "deny",  # Default action for the role
+    'defaultCos': "1eea4d66-2607-11e7-93ae-92361f002671"  # Default Class of Service ID
+}
+
+# Make a POST request to create the role.Point to the correct End-Point.
+url_post = url + "/management/v3/roles"
+r = requests.post(url_post, json=body, headers=headers, verify=False)
+
+# Parse the response to get the content
+content = json.loads(r.content)
+
+# Print the formatted JSON response
+print(json.dumps(content, indent=4))
+ 
+
+
+
+</code><button class="copy-btn" data-clipboard-target="#post-student">Copy code</button></pre>
 
 
 
@@ -424,14 +510,110 @@ object, modify whatever you want, then PUT it back in.
 what the API wants to know if you ask it for a specific role, so if we want to get the info for only one of our
 roles, we would use this endpoint: </p>
 
-<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles~1%7Bro
-leId%7D/get" target="_blank">Link to Extreme Networks API Documentation</a>
+<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles~1%7BroleId%7D/get" target="_blank">Link to Extreme Networks API Documentation</a>
 
 <p>You can do a GET request on it just like in the previous LAB2, but this time the url will look like:</p>
 <p><strong>https://&lt;your_own_XIQ-C&gt;:5825/management/v3/roles/&lt;role id&gt;</strong></p>
 
 <p><strong>&lt;role id&gt;:</strong> is the “id” of the role you got during the previous labs</p>
 
+<p>
+This GET will return the information for just that one single role (specified by ID) and nothing else, you should
+put that in your script now.
+Replace <strong>IP address</strong> and <strong>role id</strong> . You can find the role ID (for example for role Student) if you run your script from previous LAB 2.
+</p>
+
+<p><i>headers = {'Authorization': "Bearer " + auth_t,</i></p>
+<p><i>		'Content-Type': 'application/json',</i></p>
+<p><i>		'Accept': 'application/json'</i></p>
+<p><i>		}</i></p>
+<p><i>r = requests.get("https://&lt;Your_Own_XIQ-C&gt;:5825/management/v3/roles/<role id>” , headers=headers,</i></p>
+<p><i>verify=False)</i></p>
+<p><i>body = json.loads(r.content)</i></p>
+
+<p>The line <strong>“body”</strong> is gathering the response body and transforming it into a python object.</p>
+
+<div style="border: 2px solid #000; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
+        <p style="font-weight: bold; color: #000;">NOTE:You can find more documentation regarding of role object and validations here:</p>
+	<a href="https://documentation.extremenetworks.com/XIQC/10.06/API/index_gateway_api.html#tag/RoleManager/paths/~1v3~1roles~1%7BroleId%7D/put" target="_blank">Link to Extreme Networks API Documentation</a>
+</div>
+
+
+<p>So, let change the name for role Student to Janitor:</p>
+<p><i>body[“name”] = “Janitor”</i></p>
+
+<p>To make this change reflected in XCA configuraqtion , we actually need to PUT everything back with
+modification. The body of our PUT request will look exactly like response from previous GET but with
+modified <strong>body</strong> . Please change IP address and role ID accordingly:
+</p>
+
+<p><i>r = requests.put("https://&lt;Your_XIQ-C_IP&gt;:5825/management/v3/roles/&lt;role id&gt;“, json=body,
+	headers=headers, verify=False)</i></p>
+
+<p>Now you script looks like that:</p>
+
+
+<pre><code id="put-janitor"># Import the necessary libraries
+import urllib3
+import requests
+import json
+ 
+# Disable SSL warnings (InsecureRequestWarning)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+ 
+# Define the URL for the OAuth2 token request - MAKE SURE YOU REPLACE WITH YOUR XIQ-C IP/HOSTNAME!!!
+ 
+url = "https://&lt;your_own_XIQ-C&gt;:5825"
+ 
+# The end-point for the OUATH2 call : 
+url_oauth = url + "/management/v1/oauth2/token"
+ 
+# Define the body for the OAuth2 token request - MAKE SURE YOU REPLACE WITH YOUR USERNAME/PASSWORD!!!
+body = {
+    "grantType": "password",  # Type of grant being requested
+    "userId": "&lt;your user&gt;",  # Your username
+    "password": "&lt;your password&gt;",  # Your password
+    "scope": "myScope"  # Scope of the access request
+}
+ 
+# Make a POST request to get the OAuth2 token
+r = requests.post(url_oauth, json=body, verify=False)
+ 
+# Parse the response to get the content
+content = json.loads(r.content)
+ 
+# Extract the access token from the response
+auth_t = content["access_token"]
+ 
+# Define headers for the API call to GET a Role from XIQ-C
+headers = {
+    'Authorization': "Bearer " + auth_t,  # Bearer token for authorization
+    'Content-Type': 'application/json',  # Content type of the request
+    'Accept': 'application/json'  # Expected response content type
+}
+ 
+# Make a GET request to create the role. Point to the correct End-Point.
+url_role = url + "/management/v3/roles/&lt;your role ID&gt;" # Replace with Role ID !!!
+r = requests.get(url_role, headers=headers, verify=False)
+ 
+body = json.loads(r.content)
+ 
+# Change the name of the role we retrieved
+body['name'] = "Janitor"
+ 
+# Make a PUT request to update the the role. Point to the correct End-Point.
+r = requests.put(url_role, json=body, headers=headers, verify=False)
+ 
+# Parse the response to get the content
+content = json.loads(r.content)
+ 
+# Print the formatted JSON response
+print(json.dumps(content, indent=4))
+
+
+
+
+</code><button class="copy-btn" data-clipboard-target="#put-janitor">Copy code</button></pre>
 
 
 

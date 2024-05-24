@@ -51,7 +51,8 @@
 
 	<h1> XIQ Lab Environment</h1>
 
-	<p> We can use Extreme Remote Demo lab with read-only access to complete this labs. You can use your own ExtremeCloud IQ credentials to work with your own cloud accountfrom the same Jupyter Notebook environment.</p>
+	<p>We can use the Extreme Remote Demo Lab with <strong>read-only</strong> access to complete these labs. You can also use your own ExtremeCloud&trade; IQ credentials to work with your cloud account from the same Jupyter Notebook environment.
+	</p>
 
 	<ul>
 		<li> Username: <strong>extremeapilabs@gmail.com</strong> </li>
@@ -87,9 +88,9 @@ import json
 
 </code><button class="copy-btn" data-clipboard-target="#import">Copy code</button></pre>
 
-<h2>ExtremeCloudIQ API endpoint</h2>
+<h2>ExtremeCloud&trade; IQ API endpoint</h2>
 <p>
-With ExtremeCloudIQ(XIQ), each API call will be made to the same URL no matter which RDC (Regional Data Center) your VIQ(virtual instance of XIQ) is in. To perform API calls, you will need to get a <strong>JWT token</strong>. In addition to providing authorization, this token provides information about which RDC, which VIQ, who generated the token, when it was generated, and when it expires. So, the information in the token will tell the API gateway to which RDC and VIQ will forward the request.
+With ExtremeCloud&trade; IQ (XIQ), each API call will be made to the same URL no matter which RDC (Regional Data Center) your VIQ(virtual instance of XIQ) is in. To perform API calls, you will need to get a <strong>JWT token</strong>. In addition to providing authorization, this token provides information about which RDC, which VIQ, who generated the token, when it was generated, and when it expires. So, the information in the token will tell the API gateway to which RDC and VIQ will forward the request.
 </p>
 <p>All API access is over HTTPS. So, all API calls will start with </p>
 
@@ -891,7 +892,7 @@ print(response.json())
 </code><button class="copy-btn" data-clipboard-target="#optional">Copy code</button></pre>
 
 
-<p>The account used in this environment would not produce much of the output, becouse this particular accoint has only a single VIQ in the list, so probably you will get only [] as a result. If you would use a different user account which has multiple XIQ accounts in the list, you will see a list of objects. In the objects, the VIQ name and ID are included.
+<p>
 With the ID of the VIQ you want to switch to, you can use the <strong>/account/:switch?id={{viq_id}}</strong> endpoint.
 
 Using the same process, we will create the URL, perform the POST call, and then update the header authorization with the new token.
@@ -905,47 +906,46 @@ Using the same process, we will create the URL, perform the POST call, and then 
 <p><i>data = response.json()</i></p>
 <p><i>headers[‘Authorization’] = ‘Bearer ‘ + data[‘access_token’]</i></p>
 
-<p>Here is an example of the code - replace the credentials to the account you have access to as well as VIQ ID found in previous step</p>
 
 
 <pre><code id="optional2">import requests
 import json
-
 baseurl = "https://api.extremecloudiq.com"
 
 headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
-
 body = {
-    "username": "extremeapilabs@gmail.com",  #Replace your username here!!!
-    "password": "Read0nly"                   #Replace your password here!!!
+    "username": "extremeapilabs@gmail.com", 
+    "password": "Read0nly"  
 }
+
 
 # Login URL
 url = baseurl + '/login'
-
 # Login Request
 response = requests.post(url, headers=headers, json=body)
+
 
 # Check if login was successful
 if response.status_code != 200:
     print(f"Error getting access token - HTTP Status Code: {str(response.status_code)}")
     exit()
 
+
 # Extract token from response
 data = response.json()
 token = data.get('access_token')
-
 if not token:
     print("Error: No access token found in the response")
     exit()
 
+
 # Update headers with the Authorization token
 headers['Authorization'] = 'Bearer ' + token
+
 
 # GET request to /account/external
 url = baseurl + '/account/external'
 response = requests.get(url, headers=headers)
-
 if response.status_code == 200:
     external_data = response.json()
     print("External Account Data:")
@@ -953,21 +953,23 @@ if response.status_code == 200:
 else:
     print(f"Error fetching external account data - HTTP Status Code: {response.status_code}")
 
-# GET request to /account/:switch?id=123456 
-switch_id = 260891  # Replace with VIQ you need to get into!!!
-url = f"{baseurl}/account/{switch_id}"
-response = requests.get(url, headers=headers)
+# GET request to /account/:switch?id={VIQ_ID} 
 
+url = f"{baseurl}/account/:switch?id=398641"  #Replace VIQ ID as needed
+response = requests.post(url, headers=headers)
 if response.status_code == 200:
     switch_data = response.json()
     print("Switch Data:")
     print(json.dumps(switch_data, indent=4))
 else:
     print(f"Error fetching switch data - HTTP Status Code: {response.status_code}")
+headers['Authorization'] = 'Bearer ' + data['access_token']
+
 
 # Print headers for verification
 print("Headers with Authorization token:")
 print(headers)
+
 
 
 </code><button class="copy-btn" data-clipboard-target="#optional2">Copy code</button></pre>
