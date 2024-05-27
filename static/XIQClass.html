@@ -44,9 +44,30 @@
         nav a:hover {
             text-decoration: underline;
         }	
+
+	.print-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            background: linear-gradient(to bottom, #f0f0f0, #dcdcdc);
+            border: 1px solid #aaa;
+            border-radius: 10px;
+            box-shadow: 0 4px #999;
+            transition: all 0.2s ease;
+        }
+        .print-button:active {
+            box-shadow: 0 2px #666;
+            transform: translateY(2px);
+        }
+
     </style>
 </head>
 <body>
+        <button class="print-button" onclick="printPage()">Print</button> 
+
 	<nav id="toc"></nav>
 
 	<h1> XIQ Lab Environment</h1>
@@ -990,6 +1011,16 @@ print(headers)
             });
         });
     </script>
+
+    <script type="text/javascript">
+        function printPage() {
+            window.print();
+        }
+    </script>
+
+
+
+
 
     <script>
 document.addEventListener("DOMContentLoaded", function() {

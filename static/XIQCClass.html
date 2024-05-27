@@ -44,13 +44,36 @@
         nav a:hover {
             text-decoration: underline;
         }
+
+	.print-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            background: linear-gradient(to bottom, #f0f0f0, #dcdcdc);
+            border: 1px solid #aaa;
+            border-radius: 10px;
+            box-shadow: 0 4px #999;
+            transition: all 0.2s ease;
+        }
+        .print-button:active {
+            box-shadow: 0 2px #666;
+            transform: translateY(2px);
+        }
+
+
     </style>
+
 </head>
 <body>
+
+    <button class="print-button" onclick="printPage()">Print</button>
     <nav id="toc"></nav>
 
     <h1> XIQ-C Lab Environment</h1>
-    <p>We can use the Extreme Remote Demo Lab's ExtremeCloud&trade;IQ Controller (XIQ-C) with <strong>read-only</strong> access to complete the majority of these labs. However, Labs #3 and #4 require user permissions with <strong>write access</strong>, so please use your own environment for these tasks.</p>
+    <p>We can use the Extreme Remote Demo Lab's <strong>ExtremeCloud&trade;IQ Controller</strong> (XIQ-C) with <strong>read-only</strong> access to complete the majority of these labs. However, Labs #3 and #4 require user permissions with <strong>write access</strong>, so please use your own environment for these tasks.</p>
     <ul>
 	    <li>Lab XIQ-C URL: <strong>https://134.141.1.228:5825</strong> </li>
 	    <li>Username: <strong>roUser</strong></li>
@@ -631,6 +654,13 @@ print(json.dumps(content, indent=4))
             });
         });
     </script>
+
+    <script type="text/javascript">
+        function printPage() {
+            window.print();
+        }
+    </script>
+    
 
     <script>
 document.addEventListener("DOMContentLoaded", function() {
