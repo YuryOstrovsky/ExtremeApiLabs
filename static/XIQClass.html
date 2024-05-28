@@ -8,6 +8,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
     <style>
+
+
         pre {
             background-color: #000;
             color: #fff;
@@ -63,9 +65,44 @@
             transform: translateY(2px);
         }
 
+        #countdown {
+            font-size: 0.8em;
+            color: #333;
+        }
+        #countdown span {
+            font-size: 0.8em; /* Smaller size for the digits */
+        }
+
+	.popup {
+    		position: fixed;
+    		top: 50%;
+    		left: 50%;
+    		transform: translate(-50%, -50%);
+    		background-color: #ffffff;
+    		padding: 20px;
+   	        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	        z-index: 9999;
+		}
+
+	.popup-content {
+	    text-align: center;
+	}
+
+	.popup button {
+	    margin: 10px;
+	    padding: 8px 20px;
+	    font-size: 14px;
+	    cursor: pointer;
+	}
+	
+
+
     </style>
 </head>
 <body>
+
+	<div id="countdown">Your session will expire in <span></span>:<span></span>:<span></span></div>
+
         <button class="print-button" onclick="printPage()">Print</button> 
 
 	<nav id="toc"></nav>
@@ -1070,6 +1107,68 @@ document.addEventListener("DOMContentLoaded", function() {
     toc.appendChild(tocList);
 });
 </script>
+
+    <script>
+function updateCountdown() {
+    const now = new Date(); // Current time in UTC since system's date is in UTC
+    const nextSessionEnd = new Date(now);
+
+    nextSessionEnd.setUTCHours(4, 0, 0, 0); // Set target time to 4 AM UTC
+
+    // If current time is past 4 AM UTC, set countdown to next day's 4 AM UTC
+    if (now.getUTCHours() >= 4) {
+        nextSessionEnd.setUTCDate(nextSessionEnd.getUTCDate() + 1);
+    }
+
+    const timeRemaining = nextSessionEnd - now;
+
+    const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+    const seconds = Math.floor((timeRemaining / 1000) % 60);
+
+    // Update countdown display
+    document.getElementById("countdown").getElementsByTagName('span')[0].textContent = `${hours.toString().padStart(2, '0')}`;
+    document.getElementById("countdown").getElementsByTagName('span')[1].textContent = `${minutes.toString().padStart(2, '0')}`;
+    document.getElementById("countdown").getElementsByTagName('span')[2].textContent = `${seconds.toString().padStart(2, '0')}`;
+
+    // Check if less than 1 minute left
+    if (timeRemaining < 60000) { // 60,000 milliseconds = 1 minute
+        setTimeout(showSessionExpiredPopup, timeRemaining - 60000); // Show popup 1 minute before session expires
+    }
+}
+
+function showSessionExpiredPopup() {
+    // Create popup
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+    popup.innerHTML = `
+        <div class="popup-content">
+            <p>Your session expired. Please refresh the page.</p>
+            <button onclick="refreshPage()">Refresh Page</button>
+            <button onclick="cancelPopup()">Cancel</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+}
+
+function refreshPage() {
+    window.location.reload();
+}
+
+function cancelPopup() {
+    const popup = document.querySelector('.popup');
+    if (popup) {
+        popup.remove();
+    }
+}
+
+// Update the countdown every second
+setInterval(updateCountdown, 1000);
+// Initial call to display immediately
+updateCountdown();
+	    
+    </script>
+
 
 </body>
 </html>
