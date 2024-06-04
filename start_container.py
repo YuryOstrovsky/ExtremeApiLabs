@@ -54,7 +54,7 @@ def get_jupyter_info():
     for line in iter(docker_process.stdout.readline, b''):
         line = line.decode('utf-8').strip()
         print(line)  # Optionally print the container's output for debugging
-        if "http://127.0.0.1:" in line:
+        if "https://127.0.0.1:" in line:
             found = True
             print("Found the string:", line)
             # Extract the token from the found string

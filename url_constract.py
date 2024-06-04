@@ -7,7 +7,7 @@ def get_jupyter_notebook_url():
     jupyter_port, jupyter_token = output[-2].split(": ")[1], output[-1].split(": ")[1]
 
     # Construct the URL using port number and token
-    url = f"http://apilabs.extremewireless.ca:{jupyter_port}/notebooks/work/mynotebook.ipynb?token={jupyter_token}"
+    url = f"https://apilabs.extremewireless.ca:{jupyter_port}/notebooks/work/mynotebook.ipynb?token={jupyter_token}"
     return url
 
 if __name__ == "__main__":

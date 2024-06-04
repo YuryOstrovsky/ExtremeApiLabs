@@ -7,19 +7,19 @@ import jsonpickle
 from count_images import count_containers
 
 # Configure logging
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+# logger = logging.getLogger()
+# logger.setLevel(logging.DEBUG)
 
 # Create a file handler and set its level to DEBUG
-file_handler = RotatingFileHandler('app.log', maxBytes=1024*1024, backupCount=10)
-file_handler.setLevel(logging.DEBUG)
+# file_handler = RotatingFileHandler('app.log', maxBytes=1024*1024, backupCount=10)
+# file_handler.setLevel(logging.DEBUG)
 
 # Create a formatter and set it for the file handler
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-file_handler.setFormatter(formatter)
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# file_handler.setFormatter(formatter)
 
 # Add the file handler to the logger
-logger.addHandler(file_handler)
+# logger.addHandler(file_handler)
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -47,7 +47,7 @@ def home():
 
 @app.route('/tutorial.html')
 def tutorial():
-    logging.debug('Rendering tutorial page')
+#    logging.debug('Rendering tutorial page')
     return send_from_directory('static', 'tutorial.html')
 
 @app.route('/XIQClass')
@@ -68,14 +68,15 @@ def run_script():
     try:
         output = subprocess.check_output(["python3", "url_constract.py"], stderr=subprocess.STDOUT, universal_newlines=True)
         output = output.strip()
-        logging.info('Script executed successfully')
+#        logging.info('Script executed successfully')
         print(output)
         return jsonpickle.encode(output)
     except subprocess.CalledProcessError as e:
-        logging.error('Error executing script: %s', e.output)
+#        logging.error('Error executing script: %s', e.output)
         print("Error executing chat2.py:", e.output)
         return jsonpickle.encode({"error": str(e)})
 
 if __name__ == '__main__':
-    app.run(debug=False, port=5000, host='0.0.0.0')
+    context = ('cert.pem', 'key.pem')  # Path to your certificate and key files
+    app.run(debug=False, port=5000, host='0.0.0.0', ssl_context=context)
 
