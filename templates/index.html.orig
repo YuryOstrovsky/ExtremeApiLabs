@@ -112,7 +112,7 @@
     <!-- Button -->
     {% if not_allowed %}
         <div id="messageContainer">
-    	<h1>Unfortunately, we have reached our capacity for today, and no more classes are available. Please consider returning tomorrow when we can accommodate you. Classes will be available again after midnight EST (4 am UTC).</h1>
+    	<h1>Unfortunately, we have reached our capacity for today, and no more classes are available. Please consider returning tomorrow when we can accommodate you. Classes will be available again after 4 am UTC.</h1>
 	<h2>Number of classrooms taken: {{ num_containers }}</h2>
 	</div>
     {% else %}
