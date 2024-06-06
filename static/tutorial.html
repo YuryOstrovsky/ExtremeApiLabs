@@ -89,6 +89,69 @@ function openTab(evt, tabName) {
 }
 </script>
 
+<script>
+function updateCountdown() {
+    const now = new Date(); // Current time in UTC since system's date is in UTC
+    const nextSessionEnd = new Date(now);
+
+    nextSessionEnd.setUTCHours(4, 0, 0, 0); // Set target time to 4 AM UTC
+
+    // If current time is past 4 AM UTC, set countdown to next day's 4 AM UTC
+    if (now.getUTCHours() >= 4) {
+        nextSessionEnd.setUTCDate(nextSessionEnd.getUTCDate() + 1);
+    }
+
+    const timeRemaining = nextSessionEnd - now;
+
+    const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+    const seconds = Math.floor((timeRemaining / 1000) % 60);
+
+    // Update countdown display
+    document.getElementById("countdown").getElementsByTagName('span')[0].textContent = `${hours.toString().padStart(2, '0')}`;
+    document.getElementById("countdown").getElementsByTagName('span')[1].textContent = `${minutes.toString().padStart(2, '0')}`;
+    document.getElementById("countdown").getElementsByTagName('span')[2].textContent = `${seconds.toString().padStart(2, '0')}`;
+
+    // Check if less than 1 minute left
+    if (timeRemaining < 60000) { // 60,000 milliseconds = 1 minute
+        setTimeout(showSessionExpiredPopup, timeRemaining - 60000); // Show popup 1 minute before session expires
+    }
+}
+
+function showSessionExpiredPopup() {
+    // Create popup
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+    popup.innerHTML = `
+        <div class="popup-content">
+            <p>Your session expired. Please refresh the page.</p>
+            <button onclick="redirectToNewPage()">Refresh Page</button>
+            <button onclick="cancelPopup()">Cancel</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+}
+
+function redirectToNewPage() {
+    window.location.href = "https://apilabs.extremewireless.ca:5000";
+}
+
+function cancelPopup() {
+    const popup = document.querySelector('.popup');
+    if (popup) {
+        popup.remove();
+    }
+}
+
+// Update the countdown every second
+setInterval(updateCountdown, 1000);
+// Initial call to display immediately
+updateCountdown();
+</script>
+
+
+
+
 </body>
 </html>
 

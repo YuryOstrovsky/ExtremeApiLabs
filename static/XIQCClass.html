@@ -63,44 +63,11 @@
             transform: translateY(2px);
         }
 
-        #countdown {
-            font-size: 0.8em;
-            color: #333;
-        }
-        #countdown span {
-            font-size: 0.8em; /* Smaller size for the digits */
-        }
-
-        .popup {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background-color: #ffffff;
-                padding: 20px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-                z-index: 9999;
-                }
-
-        .popup-content {
-            text-align: center;
-        }
-
-        .popup button {
-            margin: 10px;
-            padding: 8px 20px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-
 
     </style>
 
 </head>
 <body>
-
-    <div id="countdown">Your session will expire in <span></span>:<span></span>:<span></span></div>
 
     <button class="print-button" onclick="printPage()">Print</button>
     <nav id="toc"></nav>
@@ -744,8 +711,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-
-    <script>
+<script>
 function updateCountdown() {
     const now = new Date(); // Current time in UTC since system's date is in UTC
     const nextSessionEnd = new Date(now);
@@ -781,15 +747,15 @@ function showSessionExpiredPopup() {
     popup.innerHTML = `
         <div class="popup-content">
             <p>Your session expired. Please refresh the page.</p>
-            <button onclick="refreshPage()">Refresh Page</button>
+            <button onclick="redirectToNewPage()">Refresh Page</button>
             <button onclick="cancelPopup()">Cancel</button>
         </div>
     `;
     document.body.appendChild(popup);
 }
 
-function refreshPage() {
-    parent.location.reload();
+function redirectToNewPage() {
+    window.location.href = "https://apilabs.extremewireless.ca:5000";
 }
 
 function cancelPopup() {
@@ -803,8 +769,8 @@ function cancelPopup() {
 setInterval(updateCountdown, 1000);
 // Initial call to display immediately
 updateCountdown();
+</script>
 
-    </script>
 
 </body>
 </html>
