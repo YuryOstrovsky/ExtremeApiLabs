@@ -62,31 +62,49 @@
             box-shadow: 0 2px #666;
             transform: translateY(2px);
         }
-	#countdown {
-	font-size: 0.8em; /* Smaller font size */
-            color: #333; /* Nicer color */
-            padding: 10px 20px;
-            background-color: #fff;
-	    font-weight: bold; /* Bold font */
+
+        /* Countdown display */
+        #countdown {
+            font-size: 0.7em;
+            margin: 20px;
+            text-align: left;
         }
-	        .popup {
+        
+        /* Popup styling */
+        .popup {
             position: fixed;
-            top: 50%;
             left: 50%;
+            top: 50%;
             transform: translate(-50%, -50%);
+            background-color: white;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
+            z-index: 1000;
+        }
+        
+        /* Popup content styling */
+        .popup-content {
             text-align: center;
         }
-        .popup button {
+        
+        /* Buttons in the popup */
+        .popup-content button {
             margin: 10px;
             padding: 10px 20px;
             font-size: 1em;
         }
-
-
+        
+        /* Optional: dim the background when popup is displayed */
+        .popup-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
     </style>
 
 </head>
@@ -758,9 +776,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
             document.getElementById("countdown").innerHTML = `Session will expire in: ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
 
-            // Check if less than 1 minute left
-            if (timeRemaining < 60000) { // 60,000 milliseconds = 1 minute
+            // Check if less than 1 minute left and show popup if not already shown
+            if (timeRemaining < 60000 && !popupShown) { // 60,000 milliseconds = 1 minute
                 setTimeout(showSessionExpiredPopup, timeRemaining); // Show popup when session expires
+                popupShown = true; // Ensure popup only shows once
             }
 
             // Check if time is up
@@ -795,10 +814,10 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
+        let popupShown = false;
         const timerInterval = setInterval(updateCountdown, 1000);
         updateCountdown(); // Initial call to display the countdown immediately
     </script>
-
 
 </body>
 </html>
