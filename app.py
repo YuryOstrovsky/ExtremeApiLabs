@@ -76,7 +76,8 @@ def run_script():
         print("Error executing chat2.py:", e.output)
         return jsonpickle.encode({"error": str(e)})
 
-if __name__ == '__main__':
-    context = ('cert.pem', 'key.pem')  # Path to your certificate and key files
-    app.run(debug=False, port=5000, host='0.0.0.0', ssl_context=context)
+# Remove this part as it will be handled by Gunicorn
+# if __name__ == '__main__':
+#     context = ('cert.pem', 'key.pem')  # Path to your certificate and key files
+#     app.run(debug=False, port=5000, host='0.0.0.0', ssl_context=context)
 
