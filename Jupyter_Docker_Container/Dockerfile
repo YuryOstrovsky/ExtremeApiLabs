@@ -1,10 +1,15 @@
 # Stage 1: Build and install dependencies
 FROM python:3.9 AS builder
 
-# Install node.js and npm used by some Jupyter extensions
-RUN apt-get update && \
-    apt-get install -y nodejs npm && \
-    rm -rf /var/lib/apt/lists/*
+# Install necessary packages (including nodejs, npm, and gcc)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        nodejs \
+        npm \
+        gcc \
+        g++ \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip and install requirements
 RUN /usr/local/bin/python3 -m pip install --upgrade pip
@@ -48,6 +53,15 @@ FROM jupyter/base-notebook:latest
 
 # Switch to root user to install dependencies
 USER root
+
+# Install GCC in the final image
+RUN apt-get update && \
+    apt-get install -y gcc g++ && \
+    rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip and install pyxccsdk in the final stage
+RUN pip install --upgrade pip
+RUN pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple --upgrade pyxccsdk
 
 # Copy the installed packages and environment from the builder stage
 COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
