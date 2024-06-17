@@ -9,40 +9,39 @@
         #runScriptBtn {
             display: block;
             margin: auto;
-            width: 200px; /* Set the width of the button */
-            height: 50px; /* Set the height of the button */
-            font-size: 16px; /* Set the font size of the button text */
-            background-color: #ffffff; /* Set the background color of the button */
-            color: #000000; /* Set the text color of the button */
-            border: 4px solid #6e0280; /* Add a border to the button */
-            border-radius: 25px; /* Apply border radius for rounded edges */
-            cursor: pointer; /* Set cursor to pointer on hover */
-            position: absolute; /* Set position to absolute for positioning */
-            top: 50%; /* Set top position to center vertically */
-            left: 50%; /* Set left position to center horizontally */
-            transform: translate(-50%, -50%); /* Move the button to center */
+            width: 200px;
+            height: 50px;
+            font-size: 16px;
+            background-color: #ffffff;
+            color: #000000;
+            border: 4px solid #6e0280;
+            border-radius: 25px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         #runScriptBtn:hover {
-            background-color: #6e0280; /* Change background color on hover */
-            color: white; /* Change text color on hover */
+            background-color: #6e0280;
+            color: white;
         }
 
-	/* Styles for centering the message */
+        /* Styles for centering the message */
         #messageContainer {
-            width: 50%; /* Set the width of the container */
-            margin: auto; /* Set margins to auto to center the container */
-            text-align: center; /* Center align the text inside the container */
-            margin-top: 100px; /* Adjust top margin as needed */
+            width: 50%;
+            margin: auto;
+            text-align: center;
+            margin-top: 100px;
         }
-
 
         /* Styles for the progress bar */
         #progressContainer {
             width: 100%;
             text-align: center;
-            margin-top: 20px; /* Add margin from the top */
-            display: none; /* Initially hide the progress container */
+            margin-top: 20px;
+            display: none;
         }
 
         #progressBarContainer {
@@ -57,7 +56,7 @@
         #progressBarFill {
             height: 100%;
             background-color: #6e0280;
-            width: 0; /* Initially set the width to 0 */
+            width: 0;
             transition: width 0.3s ease-in-out;
         }
 
@@ -93,7 +92,7 @@
             border: 4px solid #333;
             border-radius: 30px;
             text-align: center;
-            margin-top: 100px; /* Adjust the top margin as needed */
+            margin-top: 100px;
         }
     </style>
 </head>
@@ -101,20 +100,18 @@
     <!-- Disclaimer -->
     <div id="disclaimerContainer">
         <h1>Disclaimer:</h1>
-        <p> This API lab is intended for educational purposes only. It is not officially supported by Extreme Networks GTAC and operates on a best-effort basis. Any usage of the lab is at the user's own risk, and Extreme Networks does not guarantee its accuracy, reliability, or suitability for any specific purpose. Users are encouraged to exercise caution and discretion when utilizing the resources provided in this lab. Extreme Networks will not be held responsible for any consequences arising from the use of this API lab.  
-	<p>Classes are offered on a first-come, first-served basis, with a limited number of slots available. Current number of availble slots: <span style="color: purple; font-size: larger;"><strong>{{ num_available }}</strong></span></p>
-	<p>You can also sign up for the official <strong>Extreme Academy API and Automation</strong> instructor led course here : <a href="https://dojo.extremenetworks.com/extremecloud-iq-api-and-automation/" target="_blank">Link to Extreme Academy</a> </p>
-
-        <p> For any comments, suggestions, or inquiries, please feel free to contact us via email at: <a href="mailto:PLM-Extreme-API-Labs@extremenetworks.com">Extreme API Labs</a> </p>
+        <p>This API lab is intended for educational purposes only. It is not officially supported by Extreme Networks GTAC and operates on a best-effort basis. Any usage of the lab is at the user's own risk, and Extreme Networks does not guarantee its accuracy, reliability, or suitability for any specific purpose. Users are encouraged to exercise caution and discretion when utilizing the resources provided in this lab. Extreme Networks will not be held responsible for any consequences arising from the use of this API lab.</p>
+        <p>Classes are offered on a first-come, first-served basis, with a limited number of slots available. Current number of available slots: <span style="color: purple; font-size: larger;"><strong>{{ num_available }}</strong></span></p>
+        <p>You can also sign up for the official <strong>Extreme Academy API and Automation</strong> instructor led course here: <a href="https://dojo.extremenetworks.com/extremecloud-iq-api-and-automation/" target="_blank">Link to Extreme Academy</a></p>
+        <p>For any comments, suggestions, or inquiries, please feel free to contact us via email at: <a href="mailto:PLM-Extreme-API-Labs@extremenetworks.com">Extreme API Labs</a></p>
     </div>
-
 
     <!-- Button -->
     {% if not_allowed %}
         <div id="messageContainer">
-    	<h1>Unfortunately, we have reached our capacity for today, and no more classes are available. Please consider returning tomorrow when we can accommodate you. Classes will be available again after 4 am UTC.</h1>
-	<h2>Number of classrooms taken: {{ num_containers }}</h2>
-	</div>
+            <h1>Unfortunately, we have reached our capacity for today, and no more classes are available. Please consider returning tomorrow when we can accommodate you. Classes will be available again after 4 am UTC.</h1>
+            <h2>Number of classrooms taken: {{ num_containers }}</h2>
+        </div>
     {% else %}
         <button id="runScriptBtn"><b>Create my own API environment</b></button>
     {% endif %}
@@ -139,6 +136,7 @@
 
             // Hide the button
             document.getElementById('runScriptBtn').style.display = 'none';
+
             // Display the progress container
             document.getElementById('progressContainer').style.display = 'block';
 
@@ -150,17 +148,13 @@
                 let interval = setInterval(function() {
                     if (width >= 100) {
                         clearInterval(interval);
-                        // Change progress text to "Almost complete......Please wait k...."
-                        document.getElementById('progressText').innerText = "Almost complete... Please wait untill  Jupyter Notebook loads, DO NOT REFRESH THIS PAGE PLEASE!";
-                        // Hide the progress bar after 60 seconds
-                        //setTimeout(function() {
-                        //    document.getElementById('progressContainer').style.display = 'none';
-                        //}, 60000);
+                        // Change progress text to "Almost complete... Please wait until Jupyter Notebook loads, DO NOT REFRESH THIS PAGE PLEASE!"
+                        document.getElementById('progressText').innerText = "Almost complete... Please wait until Jupyter Notebook loads, DO NOT REFRESH THIS PAGE PLEASE!";
                     } else {
-                        width += 1; // Increase width gradually
+                        width += 1;
                         progressBarFill.style.width = width + '%';
                     }
-                }, 100); // Adjust interval duration as needed
+                }, 100);
 
                 fetch('/runscript', {
                     method: 'POST'
@@ -173,11 +167,8 @@
                     // Remove leading and trailing quotes from the URL string
                     const cleanedUrl = output.replace(/^"(.*)"$/, '$1');
 
-                    // Create the complete URL by concatenating with the base URL
-                    const completeUrl = cleanedUrl;
-
                     // Set the source of the Jupyter iframe
-                    document.getElementById('jupyterIframe').src = completeUrl;
+                    document.getElementById('jupyterIframe').src = cleanedUrl;
 
                     // Add event listener to check when the left iframe is loaded
                     document.getElementById('jupyterIframe').addEventListener('load', function() {
@@ -195,8 +186,26 @@
 
                 // Load tutorial content in the right iframe
                 document.getElementById('tutorialIframe').src = 'tutorial.html';
-            }, 2000); // Adjust the delay (in milliseconds) as needed
+            }, 2000);
         });
+
+        function showPopup() {
+            if (confirm("Session expired. Would you like to refresh the page?")) {
+                location.reload();
+            }
+        }
+
+        function checkTime() {
+            const now = new Date();
+            const utcHour = now.getUTCHours();
+            const utcMinute = now.getUTCMinutes();
+            
+            if (utcHour === 3 && utcMinute === 59) {
+                showPopup();
+            }
+        }
+
+        setInterval(checkTime, 1000); // Check every second
     </script>
 </body>
 </html>

@@ -23,6 +23,7 @@ logger.addHandler(file_handler)
 
 app = Flask(__name__, static_url_path='/static')
 
+
 @app.route('/')
 def home():
     logging.debug('Rendering home page')
