@@ -69,6 +69,8 @@ RUN apt-get update && \
 # Upgrade pip and install pyxccsdk in the final stage
 RUN pip install --upgrade pip
 RUN pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple --upgrade pyxccsdk
+RUN pip install pandas
+RUN pip install pytest
 
 # Copy the installed packages and environment from the builder stage
 COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages

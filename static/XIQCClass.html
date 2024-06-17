@@ -680,7 +680,99 @@ print(json.dumps(content, indent=4))
 
 </code><button class="copy-btn" data-clipboard-target="#put-janitor">Copy code</button></pre>
 
+<h1> XIQ-C Python SDK </h1>
 
+<p> XIQ-C Python SDK provides wrappers around the raw XIQ-C REST API's. </p>
+
+<p> Please follow this link to get more information regarding XIQ-C SDK installation and configuration proccess:</p>
+
+<a href="https://test.pypi.org/project/pyxccsdk/" target="_blank">Link to XIQ-C SDK documentation</a>
+
+<p> This Jupyter Notebook comes pre-installed with the XIQ-C Python SDK, allowing you to try it out without requiring any additional installation.</p>
+
+<p> Here are a few examples of how to use XIQ-C SDK</>
+
+<p> First, you need to create an XIQ-C client. The Client class wraps up the initial login, all subsequent REST API calls to the XIQ-C reuse the token obtained during Client instantiation. Change username, password and link to XIQ-C as needed. In this example we still will be using Extreme's Remote Demo Lab.</p>
+
+<pre><code id="sdk-client">from xcc.api import Client
+c=Client("roUser", "3xtreme!!", "https://134.141.1.228:5825/")
+
+</code><button class="copy-btn" data-clipboard-target="#sdk-client">Copy code</button></pre>
+
+<p>Once the XIQ-C client is successfully instantiated, you can retrieve all currently associated clients across all sites and print their IP addresses. Did you happen to notice the warning regarding certificates? Since we've already covered how to bypass warnings related to unknown web certificates, let's add a couple more lines to the code.
+</p>
+
+<pre><code id="sdk-client-list"># Hide certificate warnings:
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+from xcc.api import Client
+c=Client("roUser", "3xtreme!!", "https://134.141.1.228:5825/")
+
+
+# Print connected clients
+mus = c.mus.get()
+print([x.ipAddress for x in mus])
+
+
+</code><button class="copy-btn" data-clipboard-target="#sdk-client-list">Copy code</button></pre>
+
+<p> Here are few more examples of using SDK (assuming the XIQ-C client is already instantiated). </p>
+
+<p> Get all configured Roles and print the number of L2, L3 and L7 rules for each of the Role:</p>
+
+<pre><code id="sdk-role-list">#get number of rules in each role
+roles = c.roles.get()
+for r in roles:
+    print ("name: {n}, l2: {l2}, l3: {l3}, l7: {l7}".format(n=r.name, 
+							   l2=len(r.l2Filters), 
+							   l3=len(r.l3Filters), 
+							   l7=len(r.l7Filters)))
+
+</code><button class="copy-btn" data-clipboard-target="#sdk-role-list">Copy code</button></pre>
+
+<p>Make the list of all floors (iterate over Sites to find the floors assigned to the Site) and for each floor print the clients location:</p>
+
+<pre><code id="sdk-floor-list">fl = []
+#collect floors per Site
+for ss in c.sites.get():
+    floors = c.plans.getFloors(ss.id)
+    
+    if len(floors) != 0:
+        fl = fl + [{"site":ss.siteName, "floor":f} for f in floors]
+        print (f'Site: {ss.siteName}, {ss.treeNode["campus"]} has {len(floors)} floor plan')
+#
+#get the locations of all clients on each floor
+for floor in fl:
+    clientsWithLocs = c.location.getPerFloor(floor["floor"].floorId)
+    print (f'Site: {floor["site"]}, floor: {floor["floor"].name} has {len(clientsWithLocs)} client with location')
+    for l in clientsWithLocs:
+        print (l)
+
+</code><button class="copy-btn" data-clipboard-target="#sdk-floor-list">Copy code</button></pre>
+
+<p> Make a list of all adopted Access Points with names and Serial numbers :
+
+<pre><code id="sdk-ap-list">for a in c.aps.get():
+    if (len(a.radios) != 0):
+        print (  "Name: {n}, serial: {s}".format(n=a.apName, s=a.serialNumber))
+
+</code><button class="copy-btn" data-clipboard-target="#sdk-ap-list">Copy code</button></pre>
+
+<p>Get the client event log (all clients), for the last 1 day and 10 hours. Convert the log into pandas data frame and execute few pandas queries on the data:</p>
+
+<pre><code id="sdk-pandas">import pandas as pd
+resp = c.platformMgr.getStationEvLog(lastDay=1, lastH=10)
+ldf=pd.DataFrame(resp) #load log in data frame
+ldf=ldf.fillna("")
+ldf[ldf.macAddress == "D8:84:66:8B:67:77"] #filter on MAC
+ldf[ldf.ssid.str.startswith("eca")] #filter on ssid 
+ldf[(ldf.eventType == "Roam") & (ldf.apName == "1710Y-1601000000")] #filter on more fields
+#print out each event
+for i, row in ldf.iterrows():
+    print (f'Event: {row.eventType}, mac: {row.macAddress}, ts (epoch sec): {row.timestamp}, details: {row.details}')
+
+</code><button class="copy-btn" data-clipboard-target="#sdk-pandas">Copy code</button></pre>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
