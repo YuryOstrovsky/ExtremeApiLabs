@@ -25,7 +25,7 @@ RUN pip install jupyter
 
 # Generate Jupyter notebook configuration file
 RUN jupyter notebook --generate-config && \
-    echo "c.NotebookApp.tornado_settings = {'headers': {'Content-Security-Policy': \"frame-ancestors *\"}}" >> /root/.jupyter/jupyter_notebook_config.py
+    echo "c.NotebookApp.tornado_settings = {'headers': {'Content-Security-Policy': \"frame-ancestors *\"}}" >> /root/.jupyter/jupyter_notebook_config.py 
 
 # Ensure the notebook config directory exists
 RUN mkdir -p /home/jovyan/.jupyter/nbconfig/
@@ -47,6 +47,13 @@ RUN test -f /etc/ssl/certs/mycert.pem && \
 RUN echo "c.NotebookApp.certfile = u'/etc/ssl/certs/mycert.pem'" >> /root/.jupyter/jupyter_notebook_config.py && \
     echo "c.NotebookApp.keyfile = u'/etc/ssl/certs/mykey.key'" >> /root/.jupyter/jupyter_notebook_config.py && \
     echo "c.NotebookApp.port = 8888" >> /root/.jupyter/jupyter_notebook_config.py
+
+# Set autosave interval to 10 minutes (600000 milliseconds)
+RUN echo "c.ContentsManager.autosave_interval = 600000" >> /root/.jupyter/jupyter_notebook_config.py
+
+# Increase checkpoint interval to 10 minutes
+RUN echo "c.FileCheckpoints.checkpoint_interval = 600" >> /root/.jupyter/jupyter_notebook_config.py
+
 
 # Stage 2: Create the final Jupyter image
 FROM jupyter/base-notebook:latest
@@ -88,6 +95,11 @@ RUN chown jovyan:users /etc/ssl/certs/mycert.pem /etc/ssl/certs/mykey.key
 # Create a file named mynotebook.ipynb with some initial content
 USER jovyan
 RUN echo '{"cells": [], "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}, "language_info": {"codemirror_mode": {"name": "ipython", "version": 3}, "file_extension": ".py", "mimetype": "text/x-python", "name": "python", "nbconvert_exporter": "python", "pygments_lexer": "ipython3", "version": "3.9.2"}}, "nbformat": 4, "nbformat_minor": 5}' > /home/jovyan/work/mynotebook.ipynb
+
+
+# Copy the configuration check script
+COPY verify_config.py /home/jovyan/verify_config.py
+
 
 # Expose the port the Jupyter notebook server is running on
 EXPOSE 8888
