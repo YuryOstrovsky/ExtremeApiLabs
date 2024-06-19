@@ -105,6 +105,11 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
+
+	.popup-content button:hover {
+        background: #0056b3;
+    }
+
     </style>
 
 </head>
@@ -845,71 +850,41 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-    <script>
-        function getNext4AM() {
-            const now = new Date();
-            const next4AM = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 4, 0, 0));
+<script>
+    function getNext4AM() {
+        const now = new Date();
+        const next4AM = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 4, 0, 0));
 
-            if (now.getUTCHours() >= 4) {
-                next4AM.setUTCDate(next4AM.getUTCDate() + 1);
-            }
-
-            return next4AM;
+        if (now.getUTCHours() >= 4) {
+            next4AM.setUTCDate(next4AM.getUTCDate() + 1);
         }
 
-        function updateCountdown() {
-            const now = new Date();
-            const next4AM = getNext4AM();
-            const timeRemaining = next4AM - now;
+        return next4AM;
+    }
 
-            const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
-            const seconds = Math.floor((timeRemaining / 1000) % 60);
+    function updateCountdown() {
+        const now = new Date();
+        const next4AM = getNext4AM();
+        const timeRemaining = next4AM - now;
 
-            document.getElementById("countdown").innerHTML = `Session will expire in: ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+        const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+        const seconds = Math.floor((timeRemaining / 1000) % 60);
 
-            // Check if less than 1 minute left and show popup if not already shown
-            if (timeRemaining < 60000 && !popupShown) { // 60,000 milliseconds = 1 minute
-                setTimeout(showSessionExpiredPopup, timeRemaining); // Show popup when session expires
-                popupShown = true; // Ensure popup only shows once
-            }
+        document.getElementById("countdown").innerHTML = `Session will expire in: ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
 
-            // Check if time is up
-            if (timeRemaining < 0) {
-                clearInterval(timerInterval);
-                document.getElementById("countdown").innerHTML = "Time's up!";
-            }
+        // Check if time is up
+        if (timeRemaining < 0) {
+            clearInterval(timerInterval);
+            document.getElementById("countdown").innerHTML = "Time's up!";
         }
+    }
 
-        function showSessionExpiredPopup() {
-            // Create popup
-            const popup = document.createElement('div');
-            popup.className = 'popup';
-            popup.innerHTML = `
-                <div class="popup-content">
-                    <p>Your session expired. Please refresh the page.</p>
-                    <button onclick="redirectToNewPage()">Refresh Page</button>
-                    <button onclick="cancelPopup()">Cancel</button>
-                </div>
-            `;
-            document.body.appendChild(popup);
-        }
+    const timerInterval = setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call to display the countdown immediately
+</script>
 
-/*        function redirectToNewPage() {
-            window.location.href = "https://apilabs.extremewireless.ca:5000";
-        }
-*/
-        function cancelPopup() {
-            const popup = document.querySelector('.popup');
-            if (popup) {
-                popup.remove();
-            }
-        }
 
-        let popupShown = false;
-        const timerInterval = setInterval(updateCountdown, 1000);
-        updateCountdown(); // Initial call to display the countdown immediately
-    </script>
 
 </body>
 </html>

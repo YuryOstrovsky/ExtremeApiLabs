@@ -189,18 +189,27 @@
             }, 2000);
         });
 
-        function showPopup() {
-            if (confirm("Session expired. Would you like to refresh the page?")) {
-                location.reload();
-            }
+	function showPopup() {
+    const lastPopupTime = localStorage.getItem('lastPopupTime');
+    const now = new Date().getTime();
+
+    // Show popup if it hasn't been shown in the last 15 minutes (900000 milliseconds)
+    if (!lastPopupTime || (now - lastPopupTime) > 900000) {
+        if (confirm("Session expired. Would you like to refresh the page?")) {
+            location.reload();
         }
+        localStorage.setItem('lastPopupTime', now);
+    }
+}
+
 
         function checkTime() {
             const now = new Date();
             const utcHour = now.getUTCHours();
             const utcMinute = now.getUTCMinutes();
+	    const utcSecond = now.getUTCSeconds();
             
-            if (utcHour === 3 && utcMinute === 59) {
+            if (utcHour === 4 && utcMinute === 00 && utcSecond === 0) {
                 showPopup();
             }
         }

@@ -1140,12 +1140,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         document.getElementById("countdown").innerHTML = `Session will expire in: ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
 
-        // Check if 1 minute left before 4 AM UTC
-        if (timeRemaining < 60000 && timeRemaining >= 0 && !popupShown) { // 60,000 milliseconds = 1 minute
-            setTimeout(showSessionExpiredPopup, timeRemaining); // Show popup when 1 minute before 4 AM UTC
-            popupShown = true; // Ensure popup only shows once
-        }
-
         // Check if time is up
         if (timeRemaining < 0) {
             clearInterval(timerInterval);
@@ -1153,32 +1147,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-/*    function showSessionExpiredPopup() {
-        // Create popup
-        const popup = document.createElement('div');
-        popup.className = 'popup';
-        popup.innerHTML = `
-            <div class="popup-content">
-                <p>The session is over, please refresh your page now.</p>
-                <button onclick="cancelPopup()">Cancel</button>
-            </div>
-        `;
-        document.body.appendChild(popup);
-        popup.style.display = 'block'; // Make the popup visible
-    }
-
-    function redirectToNewPage() {
-        window.location.href = ""; // Replace with your desired URL
-    }
-
-    function cancelPopup() {
-        const popup = document.querySelector('.popup');
-        if (popup) {
-            popup.remove();
-        }
-    }
-*/
-    let popupShown = false;
     const timerInterval = setInterval(updateCountdown, 1000);
     updateCountdown(); // Initial call to display the countdown immediately
 </script>
