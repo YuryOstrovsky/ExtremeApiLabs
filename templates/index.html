@@ -195,7 +195,7 @@
 
     // Show popup if it hasn't been shown in the last 15 minutes (900000 milliseconds)
     if (!lastPopupTime || (now - lastPopupTime) > 900000) {
-        if (confirm("Session expired. Would you like to refresh the page?")) {
+        if (confirm("Session expired. Please refresh the page.")) {
             location.reload();
         }
         localStorage.setItem('lastPopupTime', now);
