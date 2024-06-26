@@ -117,6 +117,9 @@
 	<nav id="toc"></nav>
 
 	<h1> XIQ Lab Environment</h1>
+	<p>
+	This class will teach you the basics of creating scripts for the XIQ API using Python. You don't need any prior knowledge of programming or Python to take this class. After completing the labs, you will be able to create your own scripts to automate your interaction with XIQ.
+	</p>
 
 	<p>We can use the Extreme Remote Demo Lab with <strong>read-only</strong> access to complete these labs. You can also use your own ExtremeCloud&trade; IQ credentials to work with your cloud account from the same Jupyter Notebook environment.
 	</p>
@@ -825,7 +828,7 @@ Add back the params dictionary inside the "while loop", but have the <strong>pag
 <p>Once we have collected the data for this loop instance, we need to update the <strong>page</strong> and <strong>pageCount</strong> variables. Set the page to <strong>response[‘page’] + 1</strong> (to collect the next page). Then set <strong>pageCount</strong> to <strong>response[‘total_pages’]</strong>.</p>
 
 <p><i>page = data['page'] + 1</i></p>
-<p><i>pageCount = data['total_page']</i></p>
+<p><i>pageCount = data['total_pages']</i></p>
 
 <p>Add a pretty print and print the devices list outside of the while loop.</p>
 <p><i>pp(devices)</i></p>
