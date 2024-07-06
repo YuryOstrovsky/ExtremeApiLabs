@@ -9,7 +9,7 @@ Files in the project :
 
 - url_constract.py - script which is building the URL to accees particular Jupiter (every time its a new token and port)
 
-- ports.txt - just a placeholder file which is automatically updated every time Docker container starts (starting from por 8888 then +1)
+- ports.txt - just a placeholder file which is automatically updated every time Docker container starts (starting from port 8888 then +1)
 
 - count_images.py - script conts how many Docker images running at the moment. When it reaches 50 it will not let user run any more and will ask to come back tomorrow
 
