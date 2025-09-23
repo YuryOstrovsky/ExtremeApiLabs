@@ -71,6 +71,8 @@ RUN pip install --upgrade pip
 RUN pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple --upgrade pyxccsdk
 RUN pip install pandas
 RUN pip install pytest
+RUN pip install matplotlib==3.9.2
+
 
 # Copy the installed packages and environment from the builder stage
 COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages

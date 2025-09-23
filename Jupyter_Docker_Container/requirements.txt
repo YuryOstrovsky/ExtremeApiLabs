@@ -21,4 +21,5 @@ pytest-rerunfailures
 selenium
 pyshark
 pysnmp
+matplotlib==3.9.2
 
