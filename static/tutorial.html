@@ -81,6 +81,9 @@
     }	  
 
 
+    .tab { display:flex; gap:8px; }
+  .tab .tab-back { margin-left:auto; } /* push it to the right */
+
 </style>
 </head>
 <body>
@@ -90,7 +93,10 @@
 <div class="tab">
   <button class="tablinks" onclick="openTab(event, 'XIQClass')">XIQ Training Class</button>
   <button class="tablinks" onclick="openTab(event, 'XIQ-CClass')">XIQ-C Training Class</button>
+  <button class="tablinks tab-back" type="button" onclick="backToStudio(event)">← Back to AI Studio</button>
 </div>
+
+
 
 <div id="XIQClass" class="tabcontent">
   <iframe src="static/XIQClass.html" style="width:100%;height:500px;border:none;"></iframe>
@@ -163,6 +169,66 @@ function openTab(evt, tabName) {
     const timerInterval = setInterval(updateCountdown, 1000);
     updateCountdown(); // Initial call to display the countdown immediately
 </script>
+
+
+
+<!-- Place this right before </body> -->
+<script>
+  // Use one name or both if you're still using 'studio' in STUDIO
+  const STUDIO_TAB_NAMES = ['AI_STUDIO_TAB', 'studio'];
+
+  const STUDIO_URL = (() => {
+    const proto = (location.protocol === 'https:') ? 'https:' : 'http:';
+    const host  = location.hostname;
+    return `${proto}//${host}:8000/`;
+  })();
+
+  function backToStudio(ev){
+    try { ev && ev.preventDefault && ev.preventDefault(); } catch(_){}
+
+    // 1) Best case: STUDIO opened API-LAB
+    try {
+      if (window.opener && !window.opener.closed) {
+        try { window.opener.focus(); } catch(_){}
+        try { window.opener.postMessage('FOCUS_STUDIO','*'); } catch(_){}
+        return false;
+      }
+    } catch(_){}
+
+    // 2) Try existing named STUDIO tab (no reload)
+    for (const name of STUDIO_TAB_NAMES) {
+      let w = null;
+      try { w = window.open('', name); } catch(_) {}
+      if (w && !w.closed) {
+        try {
+          const href = w.location?.href || '';
+          if (href === '' || href === 'about:blank') {
+            // brand-new same-origin window: navigate it once
+            w.location.href = STUDIO_URL;
+          } else {
+            // real existing Studio: just focus
+            w.focus();
+          }
+        } catch(_) { try { w.focus(); } catch(_) {} } // cross-origin
+        return false;
+      }
+    }
+
+    // 3) Last resort: open one Studio tab
+    window.open(STUDIO_URL, STUDIO_TAB_NAMES[0]);
+    return false;
+  }
+
+  // Keep API-LAB named & let STUDIO know we're ready (helps the TRY button logic there)
+  try { window.name = 'API_LABS_TAB'; } catch(_){}
+  try {
+    if (window.opener && typeof window.opener.postMessage === 'function') {
+      window.opener.postMessage('API_LAB_READY', '*');
+    }
+  } catch(_){}
+</script>
+
+
 
 
 </body>

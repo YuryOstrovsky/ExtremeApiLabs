@@ -94,9 +94,19 @@
             text-align: center;
             margin-top: 100px;
         }
+
+
+
+
+
     </style>
 </head>
 <body>
+
+
+
+
+
     <!-- Disclaimer -->
     <div id="disclaimerContainer">
         <h1>Disclaimer:</h1>
@@ -130,6 +140,8 @@
     </div>
 
     <script>
+	// For APILABS<-->Studio bridging 
+
         document.getElementById('runScriptBtn').addEventListener('click', function() {
             // Hide the disclaimer
             document.getElementById('disclaimerContainer').style.display = 'none';
@@ -216,6 +228,28 @@
 
         setInterval(checkTime, 1000); // Check every second
     </script>
+
+<script>
+  // Put the tab into a known name even if user opened API-LAB directly
+  try { window.name = 'API_LABS_TAB'; } catch (_) {}
+
+  // Tell STUDIO (the opener) that we are ready; works cross-origin
+  try {
+    if (window.opener && typeof window.opener.postMessage === 'function') {
+      window.opener.postMessage('API_LAB_READY', '*');
+    }
+  } catch (_) {}
+</script>
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
 
