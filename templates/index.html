@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Extreme API Labs</title>
     <style>
-        /* Styles for the button */
+        /* Styles for the button (UNCHANGED) */
         #runScriptBtn {
             display: block;
             margin: auto;
@@ -28,7 +28,7 @@
             color: white;
         }
 
-        /* Styles for centering the message */
+        /* Styles for centering the message (UNCHANGED) */
         #messageContainer {
             width: 50%;
             margin: auto;
@@ -36,7 +36,7 @@
             margin-top: 100px;
         }
 
-        /* Styles for the progress bar */
+        /* Styles for the progress bar (UNCHANGED) */
         #progressContainer {
             width: 100%;
             text-align: center;
@@ -84,39 +84,100 @@
             }
         }
 
-        /* Styles for the disclaimer */
+        /* Styles for the disclaimer (REDESIGNED — ONLY THIS BLOCK CHANGED) */
         #disclaimerContainer {
-            width: 70%;
-            margin: 0 auto;
-            padding: 0px;
-            border: 4px solid #333;
-            border-radius: 30px;
-            text-align: center;
-            margin-top: 100px;
+            width: min(900px, 92vw);
+            margin: 100px auto 0 auto;
+            padding: 28px;
+            text-align: left;
+            border: 1px solid rgba(2, 6, 23, 0.06);
+            border-radius: 20px;
+            background:
+              radial-gradient(1200px 600px at 100% -10%, rgba(110,2,128,0.10), rgba(110,2,128,0) 60%),
+              linear-gradient(180deg, #ffffff, #f6f7fb);
+            box-shadow:
+              0 2px 6px rgba(16, 24, 40, 0.06),
+              0 12px 28px rgba(110, 2, 128, 0.08);
         }
+        .disclaimer-header { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+        .logo-dot { width: 12px; height: 12px; border-radius: 50%; background: #6e0280; box-shadow: 0 0 0 4px rgba(110, 2, 128, 0.15); }
+        .disclaimer-title { margin: 0; font-size: clamp(24px, 2.8vw, 32px); line-height: 1.15; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; }
+        .disclaimer-subtitle { margin: 2px 0 18px; color: #475569; font-size: 14px; }
 
+        .disclaimer-card {
+            background: rgba(15, 23, 42, 0.55);
+            color: #e2e8f0;
+            border: 1px solid rgba(100, 116, 139, 0.35);
+            border-radius: 16px;
+            padding: 16px 18px;
+            margin: 16px 0 12px;
+        }
+        .disclaimer-body { color: #0f172a; line-height: 1.6; font-size: 15px; margin: 0 0 14px; }
 
+        .availability {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+            color: #4c1d95;
+            padding: 10px 12px;
+            border-radius: 12px;
+            margin-top: 12px;
+        }
+        .availability .dot { width: 8px; height: 8px; border-radius: 999px; background: #6e0280; box-shadow: 0 0 0 3px rgba(110, 2, 128, 0.20); }
+        .availability strong { font-weight: 800; color: #6e0280; }
 
+        .disclaimer-links { display: grid; gap: 10px; margin-top: 12px; }
+        .disclaimer-links a { text-decoration: none; font-weight: 600; }
+        .link-academy { color: #2563eb; } .link-academy:hover { color: #1d4ed8; }
+        .link-mail { color: #6e0280; } .link-mail:hover { color: #560166; }
 
-
+        /* iframe layout (UNCHANGED) */
+        #outputContainer { display: flex; }
+        #jupyterIframe { width: 50%; height: 100vh; border: none; }
+        #tutorialIframe { width: 50%; height: 100vh; border: none; overflow-y: auto; }
     </style>
 </head>
 <body>
 
+    <!-- Disclaimer (REDESIGNED CONTENT ONLY) -->
+    <div id="disclaimerContainer" role="region" aria-labelledby="disclaimerTitle">
+        <div class="disclaimer-header">
+            <span class="logo-dot" aria-hidden="true"></span>
+            <h1 id="disclaimerTitle" class="disclaimer-title">Extreme API Lab</h1>
+        </div>
+        <p class="disclaimer-subtitle">Educational API Development Environment • Read before starting</p>
 
-
-
-
-    <!-- Disclaimer -->
-    <div id="disclaimerContainer">
-        <h1>Disclaimer:</h1>
-        <p>This API lab is intended for educational purposes only. It is not officially supported by Extreme Networks GTAC and operates on a best-effort basis. Any usage of the lab is at the user's own risk, and Extreme Networks does not guarantee its accuracy, reliability, or suitability for any specific purpose. Users are encouraged to exercise caution and discretion when utilizing the resources provided in this lab. Extreme Networks will not be held responsible for any consequences arising from the use of this API lab.</p>
-        <p>Classes are offered on a first-come, first-served basis, with a limited number of slots available. Current number of available slots: <span style="color: purple; font-size: larger;"><strong>{{ num_available }}</strong></span></p>
-        <p>You can also sign up for the official <strong>Extreme Academy API and Automation</strong> instructor led course here: <a href="https://dojo.extremenetworks.com/extremecloud-iq-api-and-automation/" target="_blank">Link to Extreme Academy</a></p>
-        <p>For any comments, suggestions, or inquiries, please feel free to contact us via email at: <a href="mailto:PLM-Extreme-API-Labs@extremenetworks.com">Extreme API Labs</a></p>
+        <div class="disclaimer-card" role="note" aria-label="Disclaimer">
+            <p class="disclaimer-body">
+                This API lab is intended for educational purposes only. It is not officially supported by Extreme Networks GTAC and operates on a best-effort basis. Any usage of the lab is at the user’s own risk, and Extreme Networks does not guarantee its accuracy, reliability, or suitability for any specific purpose. Users are encouraged to exercise caution and discretion when utilizing the resources provided in this lab. Extreme Networks will not be held responsible for any consequences arising from the use of this API lab.
+            </p>
+            <div class="availability">
+                <span class="dot" aria-hidden="true"></span>
+                <div>
+                    Classes are first-come, first-served with limited capacity.
+                    Current number of available slots:
+                    <strong><span style="font-size: 1.15em;">{{ num_available }}</span></strong>
+                </div>
+            </div>
+            <div class="disclaimer-links">
+                <div>
+                    You can also sign up for the official
+                    <strong>Extreme Academy API and Automation</strong> instructor-led course here:
+                    <a class="link-academy" href="https://dojo.extremenetworks.com/extremecloud-iq-api-and-automation/" target="_blank" rel="noopener noreferrer">
+                        Link to Extreme Academy
+                    </a>
+                </div>
+                <div>
+                    For comments or questions, email:
+                    <a class="link-mail" href="mailto:PLM-Extreme-API-Labs@extremenetworks.com">Extreme API Labs</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Button -->
+    <!-- Button (UNCHANGED) -->
     {% if not_allowed %}
         <div id="messageContainer">
             <h1>Unfortunately, we have reached our capacity for today, and no more classes are available. Please consider returning tomorrow when we can accommodate you. Classes will be available again after 4 am UTC.</h1>
@@ -126,7 +187,7 @@
         <button id="runScriptBtn"><b>Create my own API environment</b></button>
     {% endif %}
 
-    <!-- Progress container with text and progress bar -->
+    <!-- Progress container (UNCHANGED) -->
     <div id="progressContainer">
         <p id="progressText">Preparing environment...</p>
         <div id="progressBarContainer">
@@ -134,15 +195,23 @@
         </div>
     </div>
 
+    <!-- Iframes (UNCHANGED: Jupyter on left, Tutorial on right) -->
     <div id="outputContainer" style="display: flex;">
         <iframe id="jupyterIframe" style="width: 50%; height: 100vh; border: none;"></iframe>
         <iframe id="tutorialIframe" style="width: 50%; height: 100vh; border: none; overflow-y: auto;"></iframe>
     </div>
 
     <script>
-	// For APILABS<-->Studio bridging 
+        // For APILABS<-->Studio bridging (UNCHANGED)
 
         document.getElementById('runScriptBtn').addEventListener('click', function() {
+
+	     /* NEW: set a loading flag for this tab and flip the CSS state */
+    sessionStorage.setItem('api_env_loading', '1');          // NEW
+    document.body.classList.add('loading');                  // NEW
+
+
+
             // Hide the disclaimer
             document.getElementById('disclaimerContainer').style.display = 'none';
 
@@ -179,13 +248,17 @@
                     // Remove leading and trailing quotes from the URL string
                     const cleanedUrl = output.replace(/^"(.*)"$/, '$1');
 
-                    // Set the source of the Jupyter iframe
+                    // Set the source of the Jupyter iframe (LEFT)
                     document.getElementById('jupyterIframe').src = cleanedUrl;
 
-                    // Add event listener to check when the left iframe is loaded
+                    // Once left iframe loads, we can additionally hide progress if needed
                     document.getElementById('jupyterIframe').addEventListener('load', function() {
-                        // Once the left iframe is fully loaded, hide the progress bar container
                         document.getElementById('progressContainer').style.display = 'none';
+
+			/* clear loading flag once the left pane is actually ready */
+                sessionStorage.removeItem('api_env_loading');           // NEW
+                document.body.classList.remove('loading');              // NEW
+
                     });
                 })
                 .catch(error => {
@@ -194,34 +267,38 @@
                     document.getElementById('progressContainer').style.display = 'none';
                     // Display an error message to the user
                     alert('An error occurred while executing the script. Please try again later.');
+
+		   /* also clear the loading flag on error */
+            sessionStorage.removeItem('api_env_loading');               // NEW
+            document.body.classList.remove('loading');                  // NEW
+
+
                 });
 
-                // Load tutorial content in the right iframe
+                // Load tutorial content in the RIGHT iframe (UNCHANGED)
                 document.getElementById('tutorialIframe').src = 'tutorial.html';
             }, 2000);
         });
 
-	function showPopup() {
-    const lastPopupTime = localStorage.getItem('lastPopupTime');
-    const now = new Date().getTime();
-
-    // Show popup if it hasn't been shown in the last 15 minutes (900000 milliseconds)
-    if (!lastPopupTime || (now - lastPopupTime) > 900000) {
-        if (confirm("Session expired. Please refresh the page.")) {
-            location.reload();
+        function showPopup() {
+            const lastPopupTime = localStorage.getItem('lastPopupTime');
+            const now = new Date().getTime();
+            // Show popup if it hasn't been shown in the last 15 minutes
+            if (!lastPopupTime || (now - lastPopupTime) > 900000) {
+                if (confirm("Session expired. Please refresh the page.")) {
+                    location.reload();
+                }
+                localStorage.setItem('lastPopupTime', now);
+            }
         }
-        localStorage.setItem('lastPopupTime', now);
-    }
-}
-
 
         function checkTime() {
             const now = new Date();
             const utcHour = now.getUTCHours();
             const utcMinute = now.getUTCMinutes();
-	    const utcSecond = now.getUTCSeconds();
-            
-            if (utcHour === 4 && utcMinute === 00 && utcSecond === 0) {
+            const utcSecond = now.getUTCSeconds();
+
+            if (utcHour === 4 && utcMinute === 0 && utcSecond === 0) {
                 showPopup();
             }
         }
@@ -229,26 +306,34 @@
         setInterval(checkTime, 1000); // Check every second
     </script>
 
+    <script>
+      // Put the tab into a known name even if user opened API-LAB directly (UNCHANGED)
+      try { window.name = 'API_LABS_TAB'; } catch (_) {}
+
+      // Tell STUDIO (the opener) that we are ready; works cross-origin (UNCHANGED)
+      try {
+        if (window.opener && typeof window.opener.postMessage === 'function') {
+          window.opener.postMessage('API_LAB_READY', '*');
+        }
+      } catch (_) {}
+    </script>
+
+
+
 <script>
-  // Put the tab into a known name even if user opened API-LAB directly
-  try { window.name = 'API_LABS_TAB'; } catch (_) {}
-
-  // Tell STUDIO (the opener) that we are ready; works cross-origin
-  try {
-    if (window.opener && typeof window.opener.postMessage === 'function') {
-      window.opener.postMessage('API_LAB_READY', '*');
-    }
-  } catch (_) {}
+  (function () {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('autostart') === '1') {
+        // Wait for DOM & then programmatically click the existing button
+        document.addEventListener('DOMContentLoaded', function () {
+          var btn = document.getElementById('runScriptBtn');
+          if (btn && btn.click) btn.click();
+        });
+      }
+    } catch (e) {}
+  })();
 </script>
-
-
-
-
-
-
-
-
-
 
 </body>
 </html>

@@ -34,21 +34,42 @@ app.secret_key = os.environ.get("FLASK_SECRET", "dev-only-change-me")
 # (Optional hardening)
 app.config.update(SESSION_COOKIE_SAMESITE="Lax")
 
+# ----------------------------------------------------------------------------
+# Helper to count containers
+# ----------------------------------------------------------------------------
+def _capacity():
+    image_name = "my_jupyter_image"
+    tag = "latest"
+    num_containers = count_containers(image_name, tag)
+    num_available = max(0, 50 - num_containers)
+    not_allowed = (num_containers >= 50)  # use >= to block when it hits 50
+    return num_containers, num_available, not_allowed
+
+
 # -----------------------------------------------------------------------------
 # Routes
 # -----------------------------------------------------------------------------
 @app.route('/')
 def home():
-    logging.debug('Rendering home page')
-    # Count containers
-    image_name = "my_jupyter_image"
-    tag = "latest"
-    num_containers = count_containers(image_name, tag)
-    num_available = 50 - num_containers
+    logging.debug('Rendering landing page')
+    num_containers, num_available, not_allowed = _capacity()
+    if not_allowed:
+        return render_template('landing.html', not_allowed=True, num_containers=num_containers)
+    else:
+        return render_template('landing.html', not_allowed=False, num_available=num_available)
 
-    if num_containers > 50:
+
+
+@app.route('/index.html')
+def index_page():
+    logging.debug('Rendering original index (logic page)')
+    num_containers, num_available, not_allowed = _capacity()
+
+    if not_allowed:
+        # Block just like your current home() did
         return render_template('index.html', not_allowed=True, num_containers=num_containers)
     else:
+        # Preserve your existing template switch
         template_name = request.args.get('template', 'index')
         if template_name == 'index':
             return render_template('index.html', not_allowed=False, num_available=num_available)
@@ -56,6 +77,7 @@ def home():
             return render_template('tutorial.html')
         else:
             return "Invalid template name", 400
+
 
 @app.route('/tutorial.html')
 def tutorial():

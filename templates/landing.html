@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Extreme API Lab</title>
+  <style>
+    :root {
+      --bg: #eef2f7;
+      --card: #0f1a2a;
+      --muted: #90a3b4;
+      --text: #e6eef7;
+      --heading: #0b1220;
+      --accent: #6e0280;
+      --accent-2: #7f1ab0;
+      --ok: #16a34a;
+    }
+    html, body {
+      height: 100%; margin: 0;
+      background:
+        radial-gradient(1200px 600px at 100% -10%, rgba(110,2,128,0.07), rgba(110,2,128,0) 60%),
+        linear-gradient(180deg, #ffffff, var(--bg));
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      color: #0f172a;
+    }
+    .wrap { min-height: 100%; display: flex; flex-direction: column; }
+    .header { text-align: center; margin-top: clamp(24px, 5vw, 40px); margin-bottom: 16px; }
+    .title { margin: 0; font-size: clamp(28px, 5.2vw, 44px); line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; color: var(--heading); text-shadow: 0 1px 0 #fff; }
+    .subtitle { margin: 8px 0 0 0; color: #64748b; font-size: 14px; }
+
+    .panel {
+      width: min(1000px, 94vw);
+      margin: 18px auto 28px auto;
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid #0b1220;
+      box-shadow: 0 2px 6px rgba(16,24,40,0.06), 0 24px 48px rgba(2,6,23,0.18);
+      padding: clamp(16px, 3vw, 28px);
+      color: var(--text);
+    }
+    .section { border: 1px solid rgba(148,163,184,0.18); background: #0e1b2f; border-radius: 14px; padding: 18px; margin: 18px 0; }
+    .section h3 { margin: 0 0 14px 0; font-size: 18px; display: flex; align-items: center; gap: 10px; color: #dbeafe; }
+
+    .disclaimer-box { border: 1px solid rgba(148,163,184,0.28); background: #0f213a; border-radius: 12px; padding: 16px; color: #c7d2fe; line-height: 1.6; }
+
+    .availability-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      border: 1px solid rgba(148,163,184,0.20); background: #0f213a; border-radius: 12px; padding: 14px 16px; color: #cbd5e1;
+    }
+    .pill { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: #052e16; background: #dcfce7; border: 1px solid #86efac; padding: 6px 10px; border-radius: 999px; }
+    .pill-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--ok); box-shadow: 0 0 0 3px rgba(22,163,74,0.15); }
+
+    .link { color: #93c5fd; text-decoration: none; font-weight: 700; }
+    .link:hover { color: #bfdbfe; }
+
+    .cta { width: min(1000px, 94vw); margin: 0 auto 24px auto; }
+    .cta button {
+      width: 100%; height: 56px; border: 0; border-radius: 14px; cursor: pointer;
+      background: linear-gradient(180deg, var(--accent-2), var(--accent));
+      color: #fff; font-size: 16px; font-weight: 800; letter-spacing: .2px;
+      box-shadow: 0 6px 16px rgba(110,2,128,0.28), inset 0 -2px 0 rgba(0,0,0,0.12);
+      transition: transform .06s ease, box-shadow .12s ease, opacity .12s ease;
+    }
+    .cta button:hover { transform: translateY(-1px); }
+    .cta button:active { transform: translateY(0); }
+    .cta button[disabled] { opacity: .55; cursor: not-allowed; filter: grayscale(0.2); }
+
+    .footnote { text-align: center; color: #64748b; font-size: 12px; margin-bottom: 26px; }
+
+    .icon { width: 18px; height: 18px; display: inline-block; border-radius: 4px; }
+    .i-warning { background: radial-gradient(circle at 50% 45%, #fde68a 35%, #f59e0b 36%); }
+    .i-people  { background: radial-gradient(circle at 50% 45%, #a7f3d0 35%, #10b981 36%); }
+    .i-book    { background: radial-gradient(circle at 50% 45%, #bfdbfe 35%, #60a5fa 36%); }
+    .i-mail    { background: radial-gradient(circle at 50% 45%, #fbcfe8 35%, #ec4899 36%); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <h1 class="title">Extreme API Lab</h1>
+      <p class="subtitle">Educational API Development Environment</p>
+    </header>
+
+    <main class="panel">
+      <!-- Disclaimer -->
+      <section class="section">
+        <h3><span class="icon i-warning"></span> Disclaimer:</h3>
+        <div class="disclaimer-box">
+          This API lab is intended for educational purposes only. It is not officially supported by Extreme Networks GTAC and operates on a best-effort basis.
+          Any usage of the lab is at the user's own risk, and Extreme Networks does not guarantee its accuracy, reliability, or suitability for any specific purpose.
+          Users are encouraged to exercise caution and discretion when utilizing the resources provided in this lab. Extreme Networks will not be held responsible
+          for any consequences arising from the use of the API lab.
+        </div>
+      </section>
+
+      <!-- Availability -->
+      <section class="section">
+        <h3><span class="icon i-people"></span> Current Availability</h3>
+        <div class="availability-row">
+          <div>
+            <div style="font-weight:700; color:#e5e7eb;">Available Slots</div>
+            <div style="color:#9fb0c3; font-size:14px;">Classes are offered on a first-come, first-served basis, with a limited number of slots available.</div>
+          </div>
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span>{{ num_available if not not_allowed else 0 }}</span> <span>&nbsp;Available</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Training -->
+      <section class="section">
+        <h3><span class="icon i-book"></span> Official Training</h3>
+        <div class="disclaimer-box">
+          You can also sign up for the official <strong>Extreme Academy API and Automation</strong> instructor-led course here:
+          <div style="margin-top:8px;">
+            <a class="link" href="https://dojo.extremenetworks.com/extremecloud-iq-api-and-automation/" target="_blank" rel="noopener noreferrer">
+              Link to Extreme Academy
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="section">
+        <h3><span class="icon i-mail"></span> Get in Touch</h3>
+        <div class="disclaimer-box">
+          For any comments, suggestions, or inquiries, please feel free to contact us via email at:
+          <a class="link" href="mailto:PLM-Extreme-API-Labs@extremenetworks.com">Extreme API Labs</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- CTA -->
+    <div class="cta">
+      {% if not_allowed %}
+        <button id="cta" disabled title="Capacity reached for today">Create my own API environment</button>
+      {% else %}
+        <button id="cta">Create my own API environment</button>
+      {% endif %}
+    </div>
+
+    <p class="footnote">Extreme Networks API Development Lab · Educational Use Only</p>
+  </div>
+
+  <script>
+    document.getElementById('cta')?.addEventListener('click', () => {
+      window.location.href = '/index.html?autostart=1';
+    });
+  </script>
+</body>
+</html>
+
