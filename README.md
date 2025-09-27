@@ -13,6 +13,8 @@ Files in the project :
 
 - count_images.py - script conts how many Docker images running at the moment. When it reaches 50 it will not let user run any more and will ask to come back tomorrow
 
-- ./templates/index.html - main page user will see
+- ./templates/landing.html - landing page for users
+  
+- ./templates/index.html - main page when loading iframes with Jupyter Notebook (left) and Training materials (right)
 
 - ./static/tutorial.html , XIQCClass.html , XIQClass.html , XIQSEClass.html - class content 
