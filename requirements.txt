@@ -1,0 +1,6 @@
+flask
+requests
+# add others your app imports:
+# python-dotenv
+# pydantic
+# gunicorn

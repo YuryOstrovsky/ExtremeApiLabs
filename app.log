@@ -1,0 +1,162 @@
+2025-10-03 20:49:16,556 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on https://127.0.0.1:5000
+ * Running on https://10.128.0.2:5000
+2025-10-03 20:49:16,556 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-03 20:50:02,940 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on https://127.0.0.1:5000
+ * Running on https://10.128.0.2:5000
+2025-10-03 20:50:02,940 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-03 20:51:02,841 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on https://127.0.0.1:5000
+ * Running on https://10.128.0.2:5000
+2025-10-03 20:51:02,841 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-03 20:52:39,566 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on https://127.0.0.1:5000
+ * Running on https://10.128.0.2:5000
+2025-10-03 20:52:39,566 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-03 20:54:33,897 - root - DEBUG - Rendering landing page
+2025-10-03 20:54:33,898 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 20:54:33,898 - docker.utils.config - DEBUG - No config file found
+2025-10-03 20:54:33,898 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 20:54:33,898 - docker.utils.config - DEBUG - No config file found
+2025-10-03 20:54:33,907 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 20:54:33,923 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 1161
+2025-10-03 20:54:33,925 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/7dad938f41b6c27331060cc4ef9288b5148461f0c2e22040f46640f2691553e2/json HTTP/1.1" 200 None
+2025-10-03 20:54:33,928 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/images/3004088d95bd42a89de1d425f0bbf683a2e41f485497159c159b74b35664210c/json HTTP/1.1" 200 None
+2025-10-03 20:54:33,933 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 20:54:33] "GET / HTTP/1.1" 200 -
+2025-10-03 20:54:37,650 - root - DEBUG - Rendering original index (logic page)
+2025-10-03 20:54:37,650 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 20:54:37,650 - docker.utils.config - DEBUG - No config file found
+2025-10-03 20:54:37,650 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 20:54:37,650 - docker.utils.config - DEBUG - No config file found
+2025-10-03 20:54:37,658 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 20:54:37,673 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 1161
+2025-10-03 20:54:37,675 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/7dad938f41b6c27331060cc4ef9288b5148461f0c2e22040f46640f2691553e2/json HTTP/1.1" 200 None
+2025-10-03 20:54:37,678 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/images/3004088d95bd42a89de1d425f0bbf683a2e41f485497159c159b74b35664210c/json HTTP/1.1" 200 None
+2025-10-03 20:54:37,682 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 20:54:37] "GET /index.html?autostart=1 HTTP/1.1" 200 -
+2025-10-03 20:54:39,827 - root - DEBUG - Rendering tutorial page
+2025-10-03 20:54:39,831 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 20:54:39] "[36mGET /tutorial.html HTTP/1.1[0m" 304 -
+2025-10-03 20:54:39,953 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 20:54:39] "[36mGET /static/XIQClass.html HTTP/1.1[0m" 304 -
+2025-10-03 20:54:40,003 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 20:54:40] "[36mGET /static/XIQCClass.html HTTP/1.1[0m" 304 -
+2025-10-03 20:54:49,917 - root - INFO - Script executed successfully
+2025-10-03 20:54:49,918 - root - INFO - [session] Saved Jupyter base=https://apilabs.extremewireless.ca:8889
+2025-10-03 20:54:49,919 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 20:54:49] "POST /runscript HTTP/1.1" 200 -
+2025-10-03 21:28:09,864 - root - DEBUG - Rendering landing page
+2025-10-03 21:28:09,864 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:28:09,864 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:28:09,864 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:28:09,864 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:28:09,872 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 21:28:09,887 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 1161
+2025-10-03 21:28:09,889 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/7dad938f41b6c27331060cc4ef9288b5148461f0c2e22040f46640f2691553e2/json HTTP/1.1" 200 None
+2025-10-03 21:28:09,891 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/images/3004088d95bd42a89de1d425f0bbf683a2e41f485497159c159b74b35664210c/json HTTP/1.1" 200 None
+2025-10-03 21:28:09,892 - werkzeug - INFO - 195.178.110.15 - - [03/Oct/2025 21:28:09] "GET / HTTP/1.1" 200 -
+2025-10-03 21:28:12,451 - root - DEBUG - Rendering landing page
+2025-10-03 21:28:12,451 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:28:12,451 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:28:12,451 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:28:12,451 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:28:12,460 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 21:28:12,473 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 1161
+2025-10-03 21:28:12,475 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/7dad938f41b6c27331060cc4ef9288b5148461f0c2e22040f46640f2691553e2/json HTTP/1.1" 200 None
+2025-10-03 21:28:12,478 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/images/3004088d95bd42a89de1d425f0bbf683a2e41f485497159c159b74b35664210c/json HTTP/1.1" 200 None
+2025-10-03 21:28:12,479 - werkzeug - INFO - 195.178.110.15 - - [03/Oct/2025 21:28:12] "GET / HTTP/1.1" 200 -
+2025-10-03 21:28:15,695 - root - DEBUG - Rendering landing page
+2025-10-03 21:28:15,695 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:28:15,695 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:28:15,695 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:28:15,695 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:28:15,705 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 21:28:15,720 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 1161
+2025-10-03 21:28:15,722 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/7dad938f41b6c27331060cc4ef9288b5148461f0c2e22040f46640f2691553e2/json HTTP/1.1" 200 None
+2025-10-03 21:28:15,725 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/images/3004088d95bd42a89de1d425f0bbf683a2e41f485497159c159b74b35664210c/json HTTP/1.1" 200 None
+2025-10-03 21:28:15,726 - werkzeug - INFO - 195.178.110.15 - - [03/Oct/2025 21:28:15] "GET / HTTP/1.1" 200 -
+2025-10-03 21:28:18,277 - root - DEBUG - Rendering landing page
+2025-10-03 21:28:18,278 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:28:18,278 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:28:18,278 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:28:18,278 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:28:18,286 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 21:28:18,301 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 1161
+2025-10-03 21:28:18,303 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/7dad938f41b6c27331060cc4ef9288b5148461f0c2e22040f46640f2691553e2/json HTTP/1.1" 200 None
+2025-10-03 21:28:18,306 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/images/3004088d95bd42a89de1d425f0bbf683a2e41f485497159c159b74b35664210c/json HTTP/1.1" 200 None
+2025-10-03 21:28:18,307 - werkzeug - INFO - 195.178.110.15 - - [03/Oct/2025 21:28:18] "GET / HTTP/1.1" 200 -
+2025-10-03 21:36:37,357 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on https://127.0.0.1:5000
+ * Running on https://10.128.0.2:5000
+2025-10-03 21:36:37,358 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-03 21:37:26,776 - root - DEBUG - Rendering original index (logic page)
+2025-10-03 21:37:26,776 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:37:26,776 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:37:26,776 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:37:26,776 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:37:26,788 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 21:37:26,802 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 3
+2025-10-03 21:37:26,809 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:37:26] "GET /index.html?autostart=1 HTTP/1.1" 200 -
+2025-10-03 21:37:29,805 - root - DEBUG - Rendering tutorial page
+2025-10-03 21:37:29,811 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:37:29] "[36mGET /tutorial.html HTTP/1.1[0m" 304 -
+2025-10-03 21:37:29,932 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:37:29] "[36mGET /static/XIQClass.html HTTP/1.1[0m" 304 -
+2025-10-03 21:37:29,969 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:37:29] "[36mGET /static/XIQCClass.html HTTP/1.1[0m" 304 -
+2025-10-03 21:37:39,802 - root - INFO - Script executed successfully
+2025-10-03 21:37:39,802 - root - INFO - [session] Saved Jupyter base=https://apilabs.extremewireless.ca:8889
+2025-10-03 21:37:39,803 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:37:39] "POST /runscript HTTP/1.1" 200 -
+2025-10-03 21:53:31,647 - root - DEBUG - Rendering landing page
+2025-10-03 21:53:31,648 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:53:31,648 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:53:31,648 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:53:31,648 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:53:31,656 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 21:53:31,671 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 1163
+2025-10-03 21:53:31,674 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/144ea69d6b9c32ec435e28390ebcb542ab749feabbf63b1a072169d074b567a3/json HTTP/1.1" 200 None
+2025-10-03 21:53:31,677 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/images/3004088d95bd42a89de1d425f0bbf683a2e41f485497159c159b74b35664210c/json HTTP/1.1" 200 None
+2025-10-03 21:53:31,682 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:53:31] "GET / HTTP/1.1" 200 -
+2025-10-03 21:53:33,647 - root - DEBUG - Rendering original index (logic page)
+2025-10-03 21:53:33,647 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:53:33,647 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:53:33,647 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 21:53:33,647 - docker.utils.config - DEBUG - No config file found
+2025-10-03 21:53:33,656 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 21:53:33,673 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 1163
+2025-10-03 21:53:33,675 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/144ea69d6b9c32ec435e28390ebcb542ab749feabbf63b1a072169d074b567a3/json HTTP/1.1" 200 None
+2025-10-03 21:53:33,678 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/images/3004088d95bd42a89de1d425f0bbf683a2e41f485497159c159b74b35664210c/json HTTP/1.1" 200 None
+2025-10-03 21:53:33,679 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:53:33] "GET /index.html?autostart=1 HTTP/1.1" 200 -
+2025-10-03 21:53:35,830 - root - DEBUG - Rendering tutorial page
+2025-10-03 21:53:35,831 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:53:35] "[36mGET /tutorial.html HTTP/1.1[0m" 304 -
+2025-10-03 21:53:35,955 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:53:35] "[36mGET /static/XIQClass.html HTTP/1.1[0m" 304 -
+2025-10-03 21:53:35,992 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:53:35] "[36mGET /static/XIQCClass.html HTTP/1.1[0m" 304 -
+2025-10-03 21:53:45,820 - root - INFO - Script executed successfully
+2025-10-03 21:53:45,820 - root - INFO - [session] Saved Jupyter base=https://apilabs.extremewireless.ca:8890
+2025-10-03 21:53:45,821 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 21:53:45] "POST /runscript HTTP/1.1" 200 -
+2025-10-03 21:55:01,354 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on https://127.0.0.1:5000
+ * Running on https://10.128.0.2:5000
+2025-10-03 21:55:01,356 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-10-03 22:00:26,591 - root - DEBUG - Rendering landing page
+2025-10-03 22:00:26,591 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 22:00:26,592 - docker.utils.config - DEBUG - No config file found
+2025-10-03 22:00:26,592 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 22:00:26,592 - docker.utils.config - DEBUG - No config file found
+2025-10-03 22:00:26,606 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 22:00:26,621 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 3
+2025-10-03 22:00:26,626 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 22:00:26] "GET / HTTP/1.1" 200 -
+2025-10-03 22:00:28,850 - root - DEBUG - Rendering original index (logic page)
+2025-10-03 22:00:28,850 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 22:00:28,850 - docker.utils.config - DEBUG - No config file found
+2025-10-03 22:00:28,850 - docker.utils.config - DEBUG - Trying paths: ['/home/jupyter/.docker/config.json', '/home/jupyter/.dockercfg']
+2025-10-03 22:00:28,850 - docker.utils.config - DEBUG - No config file found
+2025-10-03 22:00:28,858 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /version HTTP/1.1" 200 818
+2025-10-03 22:00:28,872 - urllib3.connectionpool - DEBUG - http://localhost:None "GET /v1.47/containers/json?limit=-1&all=0&size=0&trunc_cmd=0 HTTP/1.1" 200 3
+2025-10-03 22:00:28,877 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 22:00:28] "GET /index.html?autostart=1 HTTP/1.1" 200 -
+2025-10-03 22:00:31,017 - root - DEBUG - Rendering tutorial page
+2025-10-03 22:00:31,023 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 22:00:31] "[36mGET /tutorial.html HTTP/1.1[0m" 304 -
+2025-10-03 22:00:31,142 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 22:00:31] "[36mGET /static/XIQClass.html HTTP/1.1[0m" 304 -
+2025-10-03 22:00:31,181 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 22:00:31] "[36mGET /static/XIQCClass.html HTTP/1.1[0m" 304 -
+2025-10-03 22:00:41,014 - root - INFO - Script executed successfully
+2025-10-03 22:00:41,015 - root - INFO - [session] Saved Jupyter base=https://apilabs.extremewireless.ca:8889
+2025-10-03 22:00:41,017 - werkzeug - INFO - 184.146.196.224 - - [03/Oct/2025 22:00:41] "POST /runscript HTTP/1.1" 200 -
