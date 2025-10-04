@@ -180,7 +180,8 @@ function openTab(evt, tabName) {
   const STUDIO_URL = (() => {
     const proto = (location.protocol === 'https:') ? 'https:' : 'http:';
     const host  = location.hostname;
-    return `${proto}//${host}:8000/`;
+//    return `${proto}//${host}:8000/`;
+      return `${proto}//${host}/`;
   })();
 
   function backToStudio(ev){
