@@ -1,13 +1,38 @@
-.env
-*.env
-*.env.*
-*.pem
-*.crt
-*.cer
-*.key
-certs/
-secrets/
-private/
-*.bak
-*~
-.DS_Store
+# Ignore everything by default
+/*
+
+# Allow this file
+!.gitignore
+
+# Allow top-level allow-list files
+!README.md
+!app.py
+!count_images.py
+!number_log.sh
+!ports.txt
+!start_container.py
+!start_lab.sh
+!url_constract.py
+!wsgi.py
+
+# Allow templates folder and only these files inside it
+!templates/
+templates/*                     # ignore everything inside...
+!templates/index.html           # ...except these
+!templates/landing.html
+
+# Allow static folder and only these files inside it
+!static/
+static/*                         # ignore everything inside...
+!static/XIQCClass.html
+!static/XIQClass.html
+!static/XIQSEClass.html
+!static/tutorial.html
+
+# Allow Jupyter_Docker_Container and only these files inside it
+!Jupyter_Docker_Container/
+Jupyter_Docker_Container/*       # ignore everything inside...
+!Jupyter_Docker_Container/Dockerfile
+!Jupyter_Docker_Container/notebook.json
+!Jupyter_Docker_Container/requirements.txt
+!Jupyter_Docker_Container/verify_config.py
