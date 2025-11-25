@@ -138,36 +138,47 @@ function openTab(evt, tabName) {
 </script>
 
 <script>
-    function getNext4AM() {
-        const now = new Date();
-        const next4AM = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 4, 0, 0));
+  // Compute ONCE
+  const deadline = getNext4AM();
+  let timerInterval = null;
+  let popped = false; // prevent multiple popups if code runs twice
 
-        if (now.getUTCHours() >= 4) {
-            next4AM.setUTCDate(next4AM.getUTCDate() + 1);
-        }
+  function getNext4AM() {
+    const now = new Date();
+    const target = new Date(now);
+    target.setHours(4, 0, 0, 0); // today 04:00:00
+    if (target <= now) target.setDate(target.getDate() + 1); // move to tomorrow if already past 4am
+    return target;
+  }
 
-        return next4AM;
+  function updateCountdown() {
+    const now = new Date();
+    const timeRemaining = deadline - now;
+
+    if (timeRemaining <= 0) {
+      clearInterval(timerInterval);
+      document.getElementById("countdown").innerHTML =
+        "Session will expire in: 00h 00m 00s";
+      if (!popped) {
+        popped = true;
+        showRefreshPopup(); // your popup
+      }
+      return;
     }
 
-    function updateCountdown() {
-        const now = new Date();
-        const next4AM = getNext4AM();
-        const timeRemaining = next4AM - now;
+    const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+    const seconds = Math.floor((timeRemaining / 1000) % 60);
 
-        const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
-        const seconds = Math.floor((timeRemaining / 1000) % 60);
+    document.getElementById("countdown").innerHTML =
+      `Session will expire in: ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
+  }
 
-        if (timeRemaining > 0) {
-            document.getElementById("countdown").innerHTML = `Session will expire in: ${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-        } else {
-            clearInterval(timerInterval);
-            document.getElementById("countdown").innerHTML = "Session will expire in: 00h 00m 00s";
-        }
-    }
-
-    const timerInterval = setInterval(updateCountdown, 1000);
-    updateCountdown(); // Initial call to display the countdown immediately
+  // Safety: avoid multiple intervals if this script can run twice
+  if (window.__countdownInterval) clearInterval(window.__countdownInterval);
+  timerInterval = setInterval(updateCountdown, 1000);
+  window.__countdownInterval = timerInterval;
+  updateCountdown();
 </script>
 
 
