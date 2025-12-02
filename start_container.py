@@ -1,7 +1,11 @@
+import os
 import subprocess
 import time
 
-def get_last_port_number(filename):
+# Single, absolute source of truth for the ports file
+PORTS_FILE = "/home/jupyter/ports.txt"
+
+def get_last_port_number(filename=PORTS_FILE):
     try:
         with open(filename, 'r') as f:
             lines = f.readlines()
@@ -14,7 +18,9 @@ def get_last_port_number(filename):
     except FileNotFoundError:
         return None
 
-def write_new_port_number(filename, new_number):
+def write_new_port_number(filename=PORTS_FILE, new_number=None):
+    if new_number is None:
+        return
     with open(filename, 'a+') as f:
         f.seek(0)
         lines = f.readlines()
@@ -30,7 +36,7 @@ def write_new_port_number(filename, new_number):
 
 def get_jupyter_info():
     # Read the last port number from ports.txt and add 1
-    port_number = get_last_port_number('ports.txt')
+    port_number = get_last_port_number()
     if port_number is None:
         port_number = 8888  # Default port number
     else:
@@ -40,10 +46,15 @@ def get_jupyter_info():
     internal_port = 8888
 
     # Write the new port number to ports.txt
-    write_new_port_number('ports.txt', port_number)
+    write_new_port_number(new_number=port_number)
 
     # Run the Docker container in the background
-    docker_process = subprocess.Popen(f'docker run -p {port_number}:{internal_port} my_jupyter_image', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    docker_process = subprocess.Popen(
+        f'docker run -p {port_number}:{internal_port} my_jupyter_image',
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT
+    )
 
     # Wait for a while to allow the container to start up
     time.sleep(10)  # Adjust this as needed based on your container's startup time
@@ -69,11 +80,9 @@ def get_jupyter_info():
     # Print the port and token before returning
     print("Jupyter port number:", port_number)
     print("Jupyter token:", token)
-    
+
     return port_number, token
 
 # Call the function to get the Jupyter port number and token
 jupyter_port, jupyter_token = get_jupyter_info()
-#print("Jupyter port number:", jupyter_port)
-#print("Jupyter token:", jupyter_token)
 

@@ -34,6 +34,24 @@ app.secret_key = os.environ.get("FLASK_SECRET", "dev-only-change-me")
 # (Optional hardening)
 app.config.update(SESSION_COOKIE_SAMESITE="Lax")
 
+
+# -----------------------------------------------------------------------------
+# Extra per-app logging (AFTER app = Flask(...))
+# -----------------------------------------------------------------------------
+handler = RotatingFileHandler(
+    "/home/jupyter/lab_app.log",
+    maxBytes=5 * 1024 * 1024,
+    backupCount=3
+)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter(
+    "%(asctime)s [%(levelname)s] %(name)s - %(message)s"
+)
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.INFO)
+
+
 # ----------------------------------------------------------------------------
 # Helper to count containers
 # ----------------------------------------------------------------------------
@@ -51,6 +69,7 @@ def _capacity():
 # -----------------------------------------------------------------------------
 @app.route('/')
 def home():
+    app.logger.info("Handling / request")
     logging.debug('Rendering landing page')
     num_containers, num_available, not_allowed = _capacity()
     if not_allowed:
@@ -137,6 +156,16 @@ def run_script():
         logging.error('Error executing script: %s', e.output)
         print("Error executing url_constract.py:", e.output)
         return jsonpickle.encode({"error": str(e)}), 500
+# -----------------------------------------------------------------------------
+# A liitle "am I alive" route
+# -----------------------------------------------------------------------------
+@app.route("/healthz")
+def health():
+    return "ok", 200
+
+
+
+
 
 # -----------------------------------------------------------------------------
 # /notebook/inject — create a new notebook with the provided code (from Studio)
