@@ -5,7 +5,9 @@ import time
 # Single, absolute source of truth for the ports file
 PORTS_FILE = "/home/jupyter/ports.txt"
 
+
 def get_last_port_number(filename=PORTS_FILE):
+    """Return the last port number stored in ports.txt, or None if empty/missing."""
     try:
         with open(filename, 'r') as f:
             lines = f.readlines()
@@ -18,9 +20,12 @@ def get_last_port_number(filename=PORTS_FILE):
     except FileNotFoundError:
         return None
 
+
 def write_new_port_number(filename=PORTS_FILE, new_number=None):
+    """Append a new port number to ports.txt if it is greater than the last one."""
     if new_number is None:
         return
+
     with open(filename, 'a+') as f:
         f.seek(0)
         lines = f.readlines()
@@ -33,6 +38,7 @@ def write_new_port_number(filename=PORTS_FILE, new_number=None):
                 print("New port number should be greater than the last one.")
         else:
             f.write(str(new_number) + '\n')
+
 
 def get_jupyter_info():
     # Read the last port number from ports.txt and add 1
@@ -74,14 +80,19 @@ def get_jupyter_info():
             print("Jupyter token:", token)
             break
 
-    if not found:
-        print("String not found in the Docker container's output.")
+    if not found or not token:
+        # Container either failed to start correctly or logs changed
+        rc = docker_process.poll()
+        print("ERROR: Could not find Jupyter token in container output.")
+        print(f"Return code from docker run: {rc}")
+        raise SystemExit(1)
 
-    # Print the port and token before returning
+    # Print the port and token before returning (happy path only)
     print("Jupyter port number:", port_number)
     print("Jupyter token:", token)
 
     return port_number, token
+
 
 # Call the function to get the Jupyter port number and token
 jupyter_port, jupyter_token = get_jupyter_info()

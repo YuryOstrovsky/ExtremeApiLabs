@@ -125,13 +125,13 @@ def run_script():
         output = subprocess.check_output(
             ["python3", "url_constract.py"],
             stderr=subprocess.STDOUT,
-            universal_newlines=True
+            text=True  # same as universal_newlines=True
         ).strip()
 
-        logging.info('Script executed successfully')
+        logging.info('url_constract.py executed successfully')
         print(output)
 
-        # The script typically returns a quoted URL string. Normalize it:
+        # The script returns a plain URL (or quoted URL). Normalize it:
         cleaned = output
         if cleaned.startswith('"') and cleaned.endswith('"'):
             cleaned = cleaned[1:-1]
@@ -148,14 +148,23 @@ def run_script():
             else:
                 logging.warning(f"[session] Could not parse base/token from URL: {cleaned}")
         except Exception as e:
-            logging.exception(f"[session] Failed to parse Jupyter URL from {cleaned}: {e}")
+            logging.exception(f"[session] Failed to parse Jupyter URL from %s: %s", cleaned, e)
 
         # Keep your existing response format (jsonpickle-encoded string)
         return jsonpickle.encode(output)
+
     except subprocess.CalledProcessError as e:
-        logging.error('Error executing script: %s', e.output)
-        print("Error executing url_constract.py:", e.output)
+        # url_constract.py or start_container.py failed (exit code != 0)
+        logging.error("Error executing url_constract.py: %s", e.output)
+        return jsonpickle.encode({"error": e.output}), 500
+
+    except Exception as e:
+        # Anything else we didn't anticipate
+        logging.exception("Unexpected error in /runscript: %s", e)
         return jsonpickle.encode({"error": str(e)}), 500
+
+
+
 # -----------------------------------------------------------------------------
 # A liitle "am I alive" route
 # -----------------------------------------------------------------------------
