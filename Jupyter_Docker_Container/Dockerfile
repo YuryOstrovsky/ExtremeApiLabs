@@ -72,6 +72,7 @@ RUN pip install --index-url https://test.pypi.org/simple/ --extra-index-url http
 RUN pip install pandas
 RUN pip install pytest
 RUN pip install matplotlib==3.9.2
+RUN pip install "openpyxl>=3.1.0"
 
 
 # Copy the installed packages and environment from the builder stage

@@ -56,7 +56,7 @@ def get_jupyter_info():
 
     # Run the Docker container in the background
     docker_process = subprocess.Popen(
-        f'docker run -p {port_number}:{internal_port} my_jupyter_image',
+        f'docker run --rm -p {port_number}:{internal_port} my_jupyter_image',
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT
